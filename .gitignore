@@ -29,3 +29,8 @@ eslint.config.mjs
 .prettierrc.json
 .prettierignore
 .env*
+
+# Roompact audit trail: 992 raw sign-in records with student names, NetIDs and
+# student ID numbers. This repo is public — this file must never be committed.
+# data.js holds only aggregate counts, which is why that one is safe.
+roompact-source.json

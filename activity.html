@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Activity — HLLC Floor Competition</title>
   <meta name="description" content="Every point awarded in the Honors LLC floor competition, newest first.">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#13294B">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -100,8 +105,8 @@
         <div class="occasion">
           <div class="occasion-head">
             <div>
-              <p class="occasion-title">${cat.icon} ${cat.name}</p>
-              <p class="occasion-meta" style="margin-top:4px;">${formatDate(o.date)} ${o.date.slice(0, 4)} &middot; ${cat.award}</p>
+              <p class="occasion-title">${cat.icon} ${o.title || cat.name}</p>
+              <p class="occasion-meta" style="margin-top:4px;">${formatDate(o.date)} ${o.date.slice(0, 4)} &middot; ${cat.name} &middot; ${cat.award}</p>
             </div>
             <p class="occasion-meta tabular">${awarded} pts awarded</p>
           </div>
@@ -114,7 +119,7 @@
                   <span class="occasion-place${p && p <= 3 ? " p" + p : ""}">${p ? pad(p) : "&mdash;"}</span>
                   <div>
                     <p class="occasion-floor">${floorLabel(r.floor)} <span style="font-family:var(--font-body);font-weight:500;font-size:0.8125rem;color:var(--text-muted);">${f ? f.ra : ""}</span></p>
-                    <p class="occasion-note">${r.note}</p>
+                    ${awardQualifier(r) ? `<p class="occasion-note">${awardQualifier(r)}</p>` : ""}
                     ${(() => {
                       const t = reachedFor(r);
                       if (!t) return "";

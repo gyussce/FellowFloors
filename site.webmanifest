@@ -1,0 +1,14 @@
+{
+  "name": "HLLC Floor Competition",
+  "short_name": "HLLC",
+  "description": "Live standings for the Honors Living-Learning Community floor competition in Wardall Hall.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080F1E",
+  "theme_color": "#13294B",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

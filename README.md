@@ -215,6 +215,78 @@ categories have been contested.
 
 ---
 
+## Where the numbers come from
+
+`roompact-source.json` in this folder is the audit trail: **31 Roompact events
+with all 992 raw sign-in records**, pulled from
+`https://roompact.com/attendance/events/<id>`. Every single number in `data.js`
+is derived from it — the 89 shared-event rows, all 7 floor-meeting counts, the
+Pizza and Planes threshold. Nothing is typed in by hand, so any figure on the
+site can be traced back to the individual check-ins behind it.
+
+**That file is gitignored and must stay that way.** It contains student names,
+NetIDs and student ID numbers for roughly 300 residents. This repository is
+public. `data.js` holds only aggregate counts, which is why it is safe to commit.
+
+To rebuild after pulling fresh Roompact data, the counting rules applied are:
+drop any record whose name matches an RA, drop anyone not in Wardall Hall floors
+6–12, collapse duplicate check-ins on NetId, and for a floor event count only
+that floor's own residents.
+
+---
+
+## The favicon
+
+`favicon.svg` is the master; `favicon.ico`, `apple-touch-icon.png` and
+`icon-512.png` are generated from it.
+
+The mark is the header's orange accent bar beside three standings bars, in the
+same colours the leaderboard uses for 1st, 2nd and 3rd place. It is built
+entirely from this site's own visual language.
+
+**It uses no University of Illinois trademark** — no Block I, no "Illinois"
+wordmark, no athletics mark. The relevant risk with a university is trademark
+rather than copyright: the marks are registered, and putting one on an
+unofficial site risks implying an affiliation that does not exist. School
+colours on their own are not protectable, so the navy-and-orange palette is
+fine to keep. The footer already states the site is not an official University
+publication, which is the other half of not implying endorsement. None of this
+is legal advice — if the Hall Director wants it cleared, University Housing
+communications is the place to ask.
+
+The `.ico` carries six frames, and the 16px one is a **different, simpler
+drawing** — two bars instead of three, every edge on a whole pixel. Three bars
+cannot resolve at 16px and turn to mush, which is what multi-frame ICO exists
+for. To regenerate after editing the SVG:
+
+```bash
+pip install cairosvg pillow
+python3 - <<'EOF'
+import cairosvg
+from PIL import Image
+sizes = [32, 48, 64, 128, 256]
+frames = {}
+for s in sizes:
+    cairosvg.svg2png(url='favicon.svg', write_to=f'/tmp/{s}.png',
+                     output_width=s, output_height=s)
+    frames[s] = Image.open(f'/tmp/{s}.png').convert('RGBA')
+# keep the hand-tuned 16px frame — do not downscale the full mark into it
+frames[16] = Image.open('favicon-16.png').convert('RGBA')
+order = [16] + sizes
+frames[256].save('favicon.ico', format='ICO', sizes=[(s, s) for s in order],
+                 append_images=[frames[s] for s in order if s != 256])
+cairosvg.svg2png(url='favicon.svg', write_to='apple-touch-icon.png',
+                 output_width=180, output_height=180)
+cairosvg.svg2png(url='favicon.svg', write_to='icon-512.png',
+                 output_width=512, output_height=512)
+EOF
+```
+
+`site.webmanifest` also makes the site installable to a phone home screen,
+which is handy for checking standings without hunting for the URL.
+
+---
+
 ## Notes
 
 - Floor nicknames ("Lucky Seven", "Cloud Nine"…) are decorative placeholders.

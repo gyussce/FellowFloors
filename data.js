@@ -115,6 +115,19 @@ const CATEGORIES = [
    ------------------------------------------------------------------ */
 const AWARDS = [
 
+  // 2026-09-08  Undergraduate Research at the University of Illinois Pan
+  { date: "2026-09-08", floor: 10, cat: "attendance", pts: 4, place: null, reached: 4,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
+  { date: "2026-09-08", floor: 6, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
+  { date: "2026-09-08", floor: 9, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
+  { date: "2026-09-08", floor: 12, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
+  { date: "2026-09-08", floor: 7, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
+  { date: "2026-09-08", floor: 8, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Undergraduate Research at the University of Illinois Panel with OUR Undergraduate Ambassadors" },
   // 2026-09-04  Resumes & Chipotle
   { date: "2026-09-04", floor: 9, cat: "attendance", pts: 4, place: null, reached: 4,
     note: "Resumes & Chipotle" },
@@ -222,7 +235,7 @@ const AWARDS = [
     note: "Karaoke & Ice Cream Social" },
   { date: "2026-08-19", floor: 10, cat: "attendance", pts: 2, place: null, reached: 2,
     note: "Karaoke & Ice Cream Social" },
-  // 2026-08-19  Dinner with National & International Scholarships Pr
+  // 2026-08-19  Dinner with National & International Scholarships Progra
   { date: "2026-08-19", floor: 6, cat: "attendance", pts: 2, place: null, reached: 2,
     note: "Dinner with National & International Scholarships Program" },
   { date: "2026-08-19", floor: 9, cat: "attendance", pts: 1, place: null, reached: 1,
@@ -321,7 +334,6 @@ const AWARDS = [
     note: "Floor Meeting #1" },
   { date: "2026-08-20", floor: 8, cat: "meetings", pts: 0, place: 7, reached: 20,
     note: "Floor Meeting #1" },
-
   /* ---- Week of Sept 8 ---- */
   { date: "2026-09-08", floor: 6, cat: "clean", pts: 25, place: null,
     note: "Cleanest floor of the week — named by the building service workers" },
@@ -407,7 +419,7 @@ function totalPointsAwarded() {
 
 /** Distinct scoring occasions — one event scored across 7 floors counts once. */
 function totalEvents() {
-  return new Set(AWARDS.map((a) => a.date + "|" + a.cat + "|" + (a.note || ""))).size;
+  return new Set(AWARDS.map((a) => a.date + "|" + a.cat + "|" + occasionTitle(a))).size;
 }
 
 function formatDate(dateStr) {
@@ -423,18 +435,36 @@ function daysIntoSeason() {
 }
 
 /**
+ * The title an award belongs under, for grouping and for the block heading.
+ *
+ * Row notes may carry a trailing clause that applies to that floor only —
+ * "Floor Meeting #1 — tied for 3rd" — so the group key is the note with any
+ * such clause stripped. Without this, two tied floors split off into their own
+ * block and one event appears twice in the log.
+ */
+function occasionTitle(award) {
+  return String(award.note || "").split(" — ")[0].trim();
+}
+
+/** The floor-specific remainder of a note, if any. Shown on the row itself. */
+function awardQualifier(award) {
+  const parts = String(award.note || "").split(" — ");
+  return parts.length > 1 ? parts.slice(1).join(" — ").trim() : "";
+}
+
+/**
  * Awards grouped into the occasions they belong to, newest first.
  *
- * Keyed on date + category + note, not just date + category: several
- * different shared events happen on the same day (Aug 19 had eight), and
- * each deserves its own block in the log rather than being merged.
+ * Keyed on date + category + title, not just date + category: several
+ * different shared events happen on the same day (Aug 19 had eight), and each
+ * deserves its own block rather than being merged.
  */
 function buildOccasions() {
   const map = new Map();
   for (const a of AWARDS) {
-    const key = a.date + "|" + a.cat + "|" + (a.note || "");
+    const key = a.date + "|" + a.cat + "|" + occasionTitle(a);
     if (!map.has(key)) {
-      map.set(key, { date: a.date, cat: a.cat, title: a.note || "", rows: [] });
+      map.set(key, { date: a.date, cat: a.cat, title: occasionTitle(a), rows: [] });
     }
     map.get(key).rows.push(a);
   }
