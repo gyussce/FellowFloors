@@ -20,6 +20,13 @@
         how close it was.</p>
     </div>
     <p class="stamp"><span class="dot"></span> <span id="stamp-text"></span></p>
+    <div class="notice" style="margin-top:24px;">
+      <p class="notice-title">Zero points is not zero effort</p>
+      <p class="notice-body">Placement categories pay only the top three floors. A floor can turn
+        out well, land fourth, and take nothing home for that result. Every row below shows how many
+        of that floor's residents actually took part, so the work is on the page even when the points
+        are not. <a href="about.html" style="color:var(--orange);text-decoration:underline;">Full scoring rules</a>.</p>
+    </div>
   </section>
 
   <hr class="section-divider">
@@ -108,6 +115,14 @@
                   <div>
                     <p class="occasion-floor">${floorLabel(r.floor)} <span style="font-family:var(--font-body);font-weight:500;font-size:0.8125rem;color:var(--text-muted);">${f ? f.ra : ""}</span></p>
                     <p class="occasion-note">${r.note}</p>
+                    ${(() => {
+                      const t = reachedFor(r);
+                      if (!t) return "";
+                      return `<span class="reached" title="Residents of this floor who took part">
+                        <span class="bar"><span style="width:${t.pct.toFixed(1)}%"></span></span>
+                        ${t.came} of ${t.of} residents took part &middot; ${t.pct.toFixed(1)}%
+                      </span>`;
+                    })()}
                   </div>
                   <span class="occasion-pts">${r.pts > 0 ? "+" + r.pts : '<span class="no-pts">0</span>'}</span>
                 </li>

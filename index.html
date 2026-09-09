@@ -27,6 +27,76 @@
 
   <hr class="section-divider">
 
+  <!-- ---------- How points work (read before the board) ---------- -->
+  <section style="padding:48px 0 8px;">
+    <div class="section-header">
+      <p class="eyebrow eyebrow-accent">Read this first</p>
+      <h2 class="section-title">How points work</h2>
+      <p class="section-desc">There are two kinds of event here, and they are scored differently on
+        purpose. Knowing which is which explains everything on the board below &mdash; including why
+        a floor can turn out well and still show a zero in a category.</p>
+    </div>
+
+    <div class="split" style="gap:20px;">
+      <div class="how-card" style="border-left:3px solid var(--orange);">
+        <p class="how-icon" aria-hidden="true">&#127775;</p>
+        <p class="how-kicker">Everybody invited</p>
+        <p class="how-title">Shared HLLC events</p>
+        <p class="how-body">
+          Every resident of your floor who signs in is <strong>one point</strong>. No cap, no
+          placement, nobody to beat &mdash; turn out and you score. This is where most points on the
+          board have come from so far, and it is the one category you can move tonight.
+        </p>
+      </div>
+      <div class="how-card" style="border-left:3px solid var(--gold);">
+        <p class="how-icon" aria-hidden="true">&#127968;</p>
+        <p class="how-kicker">Your floor only</p>
+        <p class="how-title">Floor events</p>
+        <p class="how-body">
+          Nobody else is invited, so a raw headcount would be unfair. <strong>Floor meetings and
+          iConvos</strong> are ranked on the <strong>percentage</strong> of your floor that takes
+          part &mdash; top three score. <strong>Your RA's own events</strong> earn points by clearing
+          turnout thresholds instead, so a floor cannot win the year by running more events than
+          everyone else.
+        </p>
+      </div>
+    </div>
+
+    <div class="how-grid" style="margin-top:20px;">
+      <div class="how-card">
+        <p class="how-kicker">Every week</p>
+        <p class="how-title">Cleanest floor</p>
+        <p class="how-body" id="how-clean"></p>
+      </div>
+      <div class="how-card">
+        <p class="how-kicker">Any time, no cap</p>
+        <p class="how-title">Resident nominations</p>
+        <p class="how-body" id="how-noms"></p>
+      </div>
+      <div class="how-card">
+        <p class="how-kicker">Judged</p>
+        <p class="how-title">Community initiatives</p>
+        <p class="how-body" id="how-community"></p>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:24px;">
+      <p class="notice-title" id="notice-title"></p>
+      <p class="notice-body" id="notice-body"></p>
+      <div class="open-cats" id="open-cats"></div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <div class="section-header" style="margin-bottom:18px;">
+        <p class="eyebrow">What actually moves your floor</p>
+        <h3 class="section-title" style="font-size:1.25rem;">Five things you can do</h3>
+      </div>
+      <ul class="plain-list" id="how-to-earn"></ul>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
   <!-- ---------- Leader ---------- -->
   <section style="padding:48px 0 40px;">
     <div class="leader-card">
@@ -156,6 +226,14 @@
         <div class="floor-info">
           <span class="floor-name">${floorLabel(s.number)}${s.isTied ? '<span class="tie-badge">Tied</span>' : ""}</span>
           <span class="floor-ra">${s.ra} &middot; ${s.nickname} &middot; ${s.residents} residents</span>
+          ${(() => {
+            const p = participationFor(s.number);
+            if (!p) return "";
+            return `<span class="part-line" title="Best recorded turnout for this floor">
+              <span class="bar"><span style="width:${p.bestPct.toFixed(1)}%"></span></span>
+              best turnout ${p.best} of ${p.of} &middot; ${p.bestPct.toFixed(0)}%
+            </span>`;
+          })()}
         </div>
       </td>
       <td class="col-meter">
@@ -210,6 +288,51 @@
     `;
   }).join("") : '<li class="empty">No points posted yet.</li>';
 
+  /* ---- The explainer ---------------------------------------------- */
+  el("how-clean").innerHTML =
+    `<strong>${categoryById("clean").award}</strong> to the floor the building service workers name ` +
+    `cleanest. No placement, nobody to beat. About <strong>${cleanlinessStillToCome()} more points</strong> ` +
+    `will be handed out this way before the season ends in December.`;
+
+  el("how-noms").innerHTML =
+    `<strong>${categoryById("nominations").award}</strong> for every approved nomination, with no ` +
+    "limit. Aced an exam, won a scholarship, did something for the floor that Housing would never " +
+    "otherwise hear about? Put their name in on the points form.";
+
+  el("how-community").innerHTML =
+    `<strong>${categoryById("community").award}</strong>, decided by the Honors LLC staff rather than ` +
+    "a headcount. This is where your RA's bigger ideas for the floor are rewarded.";
+
+  /* The point that matters most to a floor sitting low on the board. */
+  const open = uncontestedCategories();
+  const perPerson = AWARDS.filter((a) => a.cat === "attendance").reduce((t, a) => t + a.pts, 0);
+  el("notice-title").textContent = "It is early, and most of the season is unscored";
+  el("notice-body").innerHTML =
+    `<strong>${totalPointsAwarded()} points</strong> have been awarded across ` +
+    `<strong>${totalEvents()} results</strong>, and <strong>${perPerson}</strong> of them came from ` +
+    "residents simply signing in at shared events. " +
+    (open.length
+      ? `<strong>${open.length} of the ${CATEGORIES.length} categories have not been scored once yet</strong>, `
+      : "") +
+    `and cleanliness alone will hand out roughly <strong>${cleanlinessStillToCome()} more points</strong> ` +
+    "before December. " +
+    "<em>A low total is not a floor where nobody showed up</em> &mdash; the percentage categories only " +
+    "pay the top three, so a solid turnout can still score zero there. Every result in the " +
+    '<a href="activity.html" style="color:var(--orange);text-decoration:underline;">activity log</a> ' +
+    "shows the headcount behind it, for all seven floors.";
+
+  el("open-cats").innerHTML = open.length
+    ? open.map((c) => `<span class="open-cat">${c.icon} ${c.name} <b>${c.award}</b></span>`).join("")
+    : "";
+
+  el("how-to-earn").innerHTML = [
+    "<strong>Sign in at every HLLC event.</strong> One point per person, every time, no cap &mdash; this is the fastest way to move your floor. If you are not scanned, your floor gets nothing for you, however many of you were there.",
+    "<strong>Come to your floor meeting.</strong> Scored on the share of your floor that turns up, so every single person changes the percentage.",
+    `<strong>Finish your iConvo</strong> with your RA. Worth <strong>${categoryById("iconvos").award}</strong> to the top three floors by completion rate, and no floor has scored a single point there yet.`,
+    "<strong>Turn up to your RA's own floor events.</strong> They clear turnout thresholds &mdash; getting from nineteen people to twenty is worth ten points on its own.",
+    `<strong>Nominate a floormate</strong> when something good happens to them. <strong>${categoryById("nominations").award}</strong>, no limit, and nobody else can do it for you.`,
+  ].map((t) => `<li>${t}</li>`).join("");
+
   /* ---- Breakdown per floor ---- */
   el("breakdown-grid").innerHTML = standings.map((s) => {
     const cats = s.categoryBreakdown.filter((c) => c.points > 0);
@@ -237,7 +360,12 @@
               </div>
             `).join("")}
           </div>
-        ` : `<p style="font-size:0.8125rem;color:var(--text-dim);">No points on the board yet.</p>`}
+        ` : `<p style="font-size:0.8125rem;color:var(--text-dim);line-height:1.6;">${(() => {
+              const p = participationFor(s.number);
+              return p
+                ? `Nothing on the board yet &mdash; this floor has not finished top three in a scored result. It turned out ${p.best} of ${p.of} residents at its best showing, and four categories have not been contested at all.`
+                : "Nothing on the board yet. Four categories have not been contested at all.";
+            })()}</p>`}
       </div>
     `;
   }).join("");

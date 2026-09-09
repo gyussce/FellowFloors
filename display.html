@@ -84,7 +84,7 @@
     .tv-foot {
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 2vw;
+      gap: 2vw; flex-wrap: nowrap;
       padding-top: 1.4vh;
       font-size: clamp(0.5625rem, 0.85vw, 0.875rem);
       font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
@@ -120,6 +120,9 @@
 
   <div class="tv-foot">
     <span class="live"><i></i> Live standings</span>
+    <span style="color:var(--text-muted);text-transform:none;letter-spacing:0.02em;font-weight:600;">
+      Shared events: every person is a point &mdash; floor meetings &amp; iConvos: top three by percentage
+    </span>
     <span id="tv-foot-right"></span>
   </div>
 </div>

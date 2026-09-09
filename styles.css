@@ -917,3 +917,160 @@ a { color: inherit; text-decoration: none; }
   gap: 40px;
 }
 @media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: 48px; } }
+
+
+/* ============================================================
+   "HOW POINTS WORK" — the resident-facing explainer that sits
+   above the standings, so nobody reads the board without it.
+   ============================================================ */
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.how-card {
+  background: var(--navy-dark);
+  border: 1px solid var(--line);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.how-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--orange);
+  opacity: 0.7;
+}
+.how-icon { font-size: 1.5rem; line-height: 1; }
+.how-kicker {
+  margin-top: 14px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.how-title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.how-body {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.how-body strong { color: var(--text-primary); font-weight: 600; }
+
+/* ---- The point everyone misses, called out ---- */
+.notice {
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--orange);
+  background: linear-gradient(100deg, rgba(232, 74, 39, 0.09), var(--navy-dark) 55%);
+  padding: 28px 30px;
+}
+.notice-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.notice-body {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.notice-body strong { color: var(--text-primary); font-weight: 600; }
+.notice-body em { color: var(--gold); font-style: normal; font-weight: 600; }
+
+/* ---- Uncontested category chips (not buttons — just labels) ---- */
+.open-cats {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 18px;
+}
+.open-cat {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  padding: 8px 14px;
+  border: 1px dashed var(--line-strong);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+.open-cat b {
+  font-family: var(--font-display);
+  color: var(--orange);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Participation line under a floor name ---- */
+.part-line {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.part-line .bar {
+  width: 46px; height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.part-line .bar span {
+  display: block; height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* ---- Reached bar inside an activity row ---- */
+.reached {
+  display: flex; align-items: center; gap: 9px;
+  margin-top: 7px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.reached .bar {
+  width: 84px; height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.reached .bar span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--orange), var(--gold));
+  border-radius: 3px;
+}
+
+@media (max-width: 560px) {
+  .notice { padding: 22px 20px; }
+  .reached .bar { width: 60px; }
+}
+
+
+/* ---- Rules table: the "how it is judged" column folds into the name
+        cell on narrow screens so the table never scrolls sideways. ---- */
+.kind-inline { display: none; }
+.kind-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+@media (max-width: 720px) {
+  .rules-table .col-kind { display: none; }
+  .kind-inline { display: block; }
+}

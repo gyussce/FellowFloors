@@ -27,12 +27,14 @@
     <div class="section-header">
       <p class="eyebrow">The Categories</p>
       <h2 class="section-title">Where points come from</h2>
-      <p class="section-desc">Placement categories award points to the top three floors. Flat
-        categories award the same amount every time they are earned.</p>
+      <p class="section-desc">Two kinds of event, scored differently on purpose. Where every floor
+        is invited, each resident who signs in is worth a point. Where only your own floor is
+        invited, a raw headcount would be meaningless &mdash; so those categories are judged on a
+        percentage of your roster, or on turnout thresholds.</p>
     </div>
     <table class="rules-table">
       <thead>
-        <tr><th scope="col">Category</th><th scope="col">Award</th></tr>
+        <tr><th scope="col">Category</th><th scope="col" class="col-kind">How it is judged</th><th scope="col">Award</th></tr>
       </thead>
       <tbody id="rules-body"></tbody>
     </table>
@@ -52,20 +54,21 @@
       </div>
       <div>
         <div class="section-header">
-          <p class="eyebrow">Why Attendance Is Bundled</p>
-          <h2 class="section-title">Keeping it proportionate</h2>
+          <p class="eyebrow">Why Two Systems</p>
+          <h2 class="section-title">Shared events vs floor events</h2>
         </div>
         <p style="font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
-          There were twenty-two HLLC events between move-in and the first week of classes. Scoring
-          each one separately at 10 / 6 / 2 would have put up to <strong style="color:var(--text-primary);">190
-          points</strong> on attendance alone, against roughly <strong style="color:var(--text-primary);">60</strong>
-          for every other category combined across the whole semester. Attendance would have become
-          the competition.
+          At a <strong style="color:var(--text-primary);">shared</strong> HLLC event every floor is
+          invited, so a headcount is a fair contest and each resident who signs in is worth a point.
         </p>
         <p style="margin-top:16px;font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
-          So a run of events is added up into a single turnout figure and placed once. Same data,
-          same winner, proportionate weight. Turnout is measured as check-ins divided by roster
-          size, so a floor of 48 is not punished for being smaller than a floor of 52.
+          At a <strong style="color:var(--text-primary);">floor</strong> event nobody else is
+          invited, so counting heads would just reward whoever schedules the most. Floor meetings and
+          iConvos are therefore ranked on the <strong style="color:var(--text-primary);">percentage</strong>
+          of your own roster that takes part &mdash; which also means a floor of 48 is never at a
+          disadvantage against a floor of 52. An RA's own programming clears
+          <strong style="color:var(--text-primary);">turnout thresholds</strong> instead, capped at
+          30 points, so effort is rewarded but volume alone cannot win a season.
         </p>
       </div>
     </div>
@@ -122,12 +125,22 @@
 (function () {
   const el = (id) => document.getElementById(id);
 
+  const KIND = {
+    "per-person": "Every person counts",
+    percentage:   "% of your roster, top 3",
+    threshold:    "Turnout thresholds",
+    judged:       "Judged, top 3",
+    weekly:       "One floor per week",
+    flat:         "Flat, per award",
+  };
   el("rules-body").innerHTML = CATEGORIES.map((c) => `
     <tr>
       <td>
         <p class="rule-name">${c.icon} ${c.name}</p>
         <p class="rule-desc">${c.desc}</p>
+        <span class="kind-inline"><span class="kind-badge">${KIND[c.kind] || ""}</span></span>
       </td>
+      <td class="col-kind" style="font-size:0.8125rem;color:var(--text-muted);white-space:nowrap;">${KIND[c.kind] || ""}</td>
       <td class="rule-award">${c.award}</td>
     </tr>
   `).join("");
