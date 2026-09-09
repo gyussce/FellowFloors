@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity — HLLC Floor Competition</title>
+  <meta name="description" content="Every point awarded in the Honors LLC floor competition, newest first.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <section style="padding:48px 0 32px;">
+    <div class="section-header">
+      <p class="eyebrow eyebrow-accent">The Full Log</p>
+      <h1 class="section-title" style="font-size:2.25rem;">Every point, accounted for</h1>
+      <p class="section-desc">Each result is posted in full — every floor's placement, not just the
+        winners. Where a floor scored nothing, the turnout is still shown, so you can see exactly
+        how close it was.</p>
+    </div>
+    <p class="stamp"><span class="dot"></span> <span id="stamp-text"></span></p>
+  </section>
+
+  <hr class="section-divider">
+
+  <section style="padding:32px 0 64px;">
+    <div class="filters" id="floor-filters" role="group" aria-label="Filter by floor"></div>
+    <div class="filters" id="cat-filters" role="group" aria-label="Filter by category" style="margin-bottom:32px;"></div>
+    <div id="log"></div>
+  </section>
+
+</div>
+
+<script src="data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  const el = (id) => document.getElementById(id);
+  const pad = (n) => String(n).padStart(2, "0");
+  let floorFilter = "all";
+  let catFilter = "all";
+
+  el("stamp-text").textContent =
+    totalPointsAwarded() + " points awarded across " + totalEvents() +
+    " results · updated " + formatDate(SEASON.updated);
+
+  /* ---- Filter chips ---- */
+  function chips(container, items, current, onPick) {
+    container.innerHTML = items.map((i) =>
+      `<button class="chip" data-value="${i.value}" aria-pressed="${i.value === current}">${i.label}</button>`
+    ).join("");
+    container.querySelectorAll(".chip").forEach((btn) => {
+      btn.addEventListener("click", () => onPick(btn.dataset.value));
+    });
+  }
+
+  function renderFilters() {
+    chips(el("floor-filters"),
+      [{ value: "all", label: "All floors" }].concat(
+        FLOORS.map((f) => ({ value: String(f.number), label: "Floor " + f.number }))),
+      floorFilter,
+      (v) => { floorFilter = v; render(); });
+
+    chips(el("cat-filters"),
+      [{ value: "all", label: "All categories" }].concat(
+        CATEGORIES.map((c) => ({ value: c.id, label: c.name }))),
+      catFilter,
+      (v) => { catFilter = v; render(); });
+  }
+
+  /* ---- Log ---- */
+  function render() {
+    renderFilters();
+
+    const occasions = buildOccasions()
+      .filter((o) => catFilter === "all" || o.cat === catFilter)
+      .map((o) => ({
+        ...o,
+        rows: o.rows.filter((r) => floorFilter === "all" || String(r.floor) === floorFilter),
+      }))
+      .filter((o) => o.rows.length > 0);
+
+    if (!occasions.length) {
+      el("log").innerHTML = '<p class="empty">Nothing matches that filter yet.</p>';
+      return;
+    }
+
+    el("log").innerHTML = occasions.map((o) => {
+      const cat = categoryById(o.cat);
+      const awarded = o.rows.reduce((t, r) => t + r.pts, 0);
+      return `
+        <div class="occasion">
+          <div class="occasion-head">
+            <div>
+              <p class="occasion-title">${cat.icon} ${cat.name}</p>
+              <p class="occasion-meta" style="margin-top:4px;">${formatDate(o.date)} ${o.date.slice(0, 4)} &middot; ${cat.award}</p>
+            </div>
+            <p class="occasion-meta tabular">${awarded} pts awarded</p>
+          </div>
+          <ul class="occasion-rows">
+            ${o.rows.map((r) => {
+              const f = getFloor(r.floor);
+              const p = r.place;
+              return `
+                <li class="occasion-row">
+                  <span class="occasion-place${p && p <= 3 ? " p" + p : ""}">${p ? pad(p) : "&mdash;"}</span>
+                  <div>
+                    <p class="occasion-floor">${floorLabel(r.floor)} <span style="font-family:var(--font-body);font-weight:500;font-size:0.8125rem;color:var(--text-muted);">${f ? f.ra : ""}</span></p>
+                    <p class="occasion-note">${r.note}</p>
+                  </div>
+                  <span class="occasion-pts">${r.pts > 0 ? "+" + r.pts : '<span class="no-pts">0</span>'}</span>
+                </li>
+              `;
+            }).join("")}
+          </ul>
+        </div>
+      `;
+    }).join("");
+  }
+
+  render();
+})();
+</script>
+
+</body>
+</html>

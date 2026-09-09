@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoring — HLLC Floor Competition</title>
+  <meta name="description" content="How the Honors LLC floor competition is scored: categories, point values, and the counting rules.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <section style="padding:48px 0 32px;">
+    <div class="section-header">
+      <p class="eyebrow eyebrow-accent">How This Works</p>
+      <h1 class="section-title" style="font-size:2.25rem;">Scoring, in the open</h1>
+      <p class="section-desc">Seven floors of the Honors Living-Learning Community compete all year.
+        Every rule and every point value is published here, so anyone can check the maths.</p>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Categories ---------- -->
+  <section style="padding:40px 0;">
+    <div class="section-header">
+      <p class="eyebrow">The Categories</p>
+      <h2 class="section-title">Where points come from</h2>
+      <p class="section-desc">Placement categories award points to the top three floors. Flat
+        categories award the same amount every time they are earned.</p>
+    </div>
+    <table class="rules-table">
+      <thead>
+        <tr><th scope="col">Category</th><th scope="col">Award</th></tr>
+      </thead>
+      <tbody id="rules-body"></tbody>
+    </table>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Rules ---------- -->
+  <section style="padding:40px 0;">
+    <div class="split">
+      <div>
+        <div class="section-header">
+          <p class="eyebrow">The Fine Print</p>
+          <h2 class="section-title">Counting rules</h2>
+        </div>
+        <ul class="plain-list" id="rules-list"></ul>
+      </div>
+      <div>
+        <div class="section-header">
+          <p class="eyebrow">Why Attendance Is Bundled</p>
+          <h2 class="section-title">Keeping it proportionate</h2>
+        </div>
+        <p style="font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
+          There were twenty-two HLLC events between move-in and the first week of classes. Scoring
+          each one separately at 10 / 6 / 2 would have put up to <strong style="color:var(--text-primary);">190
+          points</strong> on attendance alone, against roughly <strong style="color:var(--text-primary);">60</strong>
+          for every other category combined across the whole semester. Attendance would have become
+          the competition.
+        </p>
+        <p style="margin-top:16px;font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
+          So a run of events is added up into a single turnout figure and placed once. Same data,
+          same winner, proportionate weight. Turnout is measured as check-ins divided by roster
+          size, so a floor of 48 is not punished for being smaller than a floor of 52.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Floors ---------- -->
+  <section style="padding:40px 0;">
+    <div class="section-header">
+      <p class="eyebrow">The Field</p>
+      <h2 class="section-title">Seven floors</h2>
+      <p class="section-desc">Roster sizes are the denominator for every turnout and completion
+        percentage on this site.</p>
+    </div>
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th scope="col">Floor</th>
+          <th scope="col">RA</th>
+          <th scope="col" class="col-meter">Share of the LLC</th>
+          <th scope="col">Residents</th>
+        </tr>
+      </thead>
+      <tbody id="floors-body"></tbody>
+    </table>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Colophon ---------- -->
+  <section style="padding:40px 0 64px;">
+    <div class="panel">
+      <p class="eyebrow eyebrow-accent">Where the numbers come from</p>
+      <p style="margin-top:12px;font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
+        Attendance and floor-meeting turnout are counted from Roompact sign-ins. Community
+        initiatives, notes for introduction and resident nominations are recorded by the Honors LLC
+        staff. Cleanliness is named each week by the building service workers.
+      </p>
+      <p style="margin-top:16px;font-size:0.9375rem;color:var(--text-muted);line-height:1.7;">
+        Nothing on this site is a stored total. Every score, rank and percentage is added up fresh
+        from the list of individual awards each time the page loads, so the standings and the
+        activity log can never disagree with each other.
+      </p>
+      <p class="stamp" style="margin-top:20px;"><span class="dot"></span> <span id="colophon-stamp"></span></p>
+    </div>
+  </section>
+
+</div>
+
+<script src="data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  const el = (id) => document.getElementById(id);
+
+  el("rules-body").innerHTML = CATEGORIES.map((c) => `
+    <tr>
+      <td>
+        <p class="rule-name">${c.icon} ${c.name}</p>
+        <p class="rule-desc">${c.desc}</p>
+      </td>
+      <td class="rule-award">${c.award}</td>
+    </tr>
+  `).join("");
+
+  el("rules-list").innerHTML = NOTES_FOR_RESIDENTS.map((n) => `<li>${n}</li>`).join("");
+
+  const totalResidents = FLOORS.reduce((t, f) => t + f.residents, 0);
+  el("floors-body").innerHTML = FLOORS.map((f) => `
+    <tr>
+      <td>
+        <div class="floor-info">
+          <span class="floor-name">${floorLabel(f.number)}</span>
+          <span class="floor-ra">${f.nickname}</span>
+        </div>
+      </td>
+      <td style="font-size:0.9375rem;color:var(--text-muted);">${f.ra}</td>
+      <td class="col-meter">
+        <div class="turnout">
+          <div class="turnout-track">
+            <div class="turnout-fill" style="width:${((f.residents / totalResidents) * 100 * 7).toFixed(1)}%"></div>
+          </div>
+          <span style="font-size:0.75rem;color:var(--text-dim);min-width:44px;">${((f.residents / totalResidents) * 100).toFixed(1)}%</span>
+        </div>
+      </td>
+      <td class="score-cell tabular">${f.residents}</td>
+    </tr>
+  `).join("") + `
+    <tr>
+      <td><span class="floor-name" style="color:var(--text-muted);">TOTAL</span></td>
+      <td></td><td class="col-meter"></td>
+      <td class="score-cell tabular" style="color:var(--orange);">${totalResidents}</td>
+    </tr>
+  `;
+
+  el("colophon-stamp").textContent =
+    SEASON.term + " · " + SEASON.starts + " to " + SEASON.ends +
+    " · last updated " + formatDate(SEASON.updated);
+})();
+</script>
+
+</body>
+</html>

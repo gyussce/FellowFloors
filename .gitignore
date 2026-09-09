@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# HLLC Floor Competition — a plain static site. No build step, no Node.
+# ---------------------------------------------------------------------------
+
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+
+# Leftovers from the earlier Next.js version of this site. Not part of the
+# static site and not deployed. Safe to delete from disk entirely.
+/node_modules/
+/.next/
+/src/
+/scripts/
+/data/
+/.theme-ref/
+/_to_delete/
+package.json
+package-lock.json
+next.config.ts
+next-env.d.ts
+tsconfig.json
+tsconfig.tsbuildinfo
+postcss.config.mjs
+eslint.config.mjs
+.prettierrc.json
+.prettierignore
+.env*

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HLLC Floor Competition — Wardall is Out of This World</title>
+  <meta name="description" content="Live standings for the Honors Living-Learning Community floor competition in Wardall Hall, ISR — University of Illinois Urbana-Champaign.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ---------- Hero ---------- -->
+  <section style="padding:60px 0 48px;text-align:center;position:relative;">
+    <div class="float" aria-hidden="true"
+         style="position:absolute;right:5%;top:30px;font-size:2.5rem;opacity:0.15;transform:rotate(-30deg);pointer-events:none;">&#128640;</div>
+    <p class="eyebrow eyebrow-accent" id="hero-eyebrow"></p>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2.5rem,7vw,4.5rem);font-weight:700;letter-spacing:-0.04em;line-height:0.9;margin-top:16px;">
+      WARDALL IS<br><span style="color:var(--orange);">OUT OF THIS WORLD</span>
+    </h1>
+    <p style="margin-top:20px;font-size:1.125rem;color:var(--text-muted);font-weight:500;">
+      Seven floors. One champion. The race for <em style="color:var(--gold);font-style:italic;">Wardall</em> is on.
+    </p>
+    <dl style="margin-top:32px;display:flex;justify-content:center;gap:40px;flex-wrap:wrap;" id="hero-stats"></dl>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Leader ---------- -->
+  <section style="padding:48px 0 40px;">
+    <div class="leader-card">
+      <div class="leader-planet" aria-hidden="true"></div>
+      <div class="leader-card-grid" id="leader-card"></div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Standings ---------- -->
+  <section style="padding:48px 0 24px;">
+    <div class="section-header">
+      <p class="eyebrow">Current Standings</p>
+      <h2 class="section-title">Seven floors. One champion.</h2>
+      <p class="section-desc">Every floor in the Honors LLC, ranked by points earned across event
+        attendance, floor meetings, community initiatives, iConvos, notes for introduction,
+        cleanliness and resident nominations. Tied floors share the rank and the points.</p>
+    </div>
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Floor &middot; RA</th>
+          <th scope="col" class="col-meter">Standing</th>
+          <th scope="col">Points</th>
+        </tr>
+      </thead>
+      <tbody id="standings-body"></tbody>
+    </table>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Stats + Activity ---------- -->
+  <section style="padding:48px 0;">
+    <div class="split">
+      <div>
+        <div class="section-header">
+          <p class="eyebrow">Competition Stats</p>
+          <h2 class="section-title">By the Numbers</h2>
+        </div>
+        <div class="stat-grid" id="stat-grid"></div>
+      </div>
+      <div>
+        <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+          <div>
+            <p class="eyebrow">Latest Results</p>
+            <h2 class="section-title">Point Activity</h2>
+          </div>
+          <a href="activity.html" class="btn" style="margin-top:8px;white-space:nowrap;">Full Log</a>
+        </div>
+        <ul class="activity-list" id="activity-preview"></ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ---------- Breakdown ---------- -->
+  <section style="padding:48px 0;">
+    <div class="section-header">
+      <p class="eyebrow">Score Breakdown</p>
+      <h2 class="section-title">Points by Category</h2>
+      <p class="section-desc">How each floor's total is composed. Categories with nothing scored yet are left out.</p>
+    </div>
+    <div id="breakdown-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;"></div>
+  </section>
+
+</div>
+
+<script src="data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  const standings = buildStandings();
+  const pad = (n) => String(n).padStart(2, "0");
+  const el = (id) => document.getElementById(id);
+
+  /* ---- Hero ---- */
+  el("hero-eyebrow").textContent =
+    "Wardall Hall · Honors LLC · " + SEASON.term;
+
+  el("hero-stats").innerHTML = [
+    { label: "Floors", value: FLOORS.length },
+    { label: "Points Awarded", value: totalPointsAwarded().toLocaleString() },
+    { label: "Results Posted", value: totalEvents() },
+    { label: "Days In", value: daysIntoSeason() },
+  ].map((s) => `
+    <div>
+      <dt style="font-size:0.625rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);">${s.label}</dt>
+      <dd class="tabular" style="margin-top:4px;font-family:var(--font-display);font-size:1.75rem;font-weight:700;">${s.value}</dd>
+    </div>
+  `).join("");
+
+  /* ---- Leader card ---- */
+  const leader = standings[0];
+  const chaser = standings.find((s) => s.score < leader.score);
+  const coLeaders = standings.filter((s) => s.rank === 1);
+
+  el("leader-card").innerHTML = `
+    <div>
+      <p class="eyebrow eyebrow-accent">&#11088; ${coLeaders.length > 1 ? "Joint Leaders" : "Current Leader"}</p>
+      <p class="leader-floor">${coLeaders.map((s) => floorLabel(s.number)).join(" & ")}</p>
+      <p class="leader-ra">${coLeaders.map((s) => s.ra).join(" & ")}
+        <span style="font-size:0.8rem;color:var(--text-dim);">&middot; ${coLeaders.map((s) => s.nickname).join(" & ")}</span></p>
+      <div class="leader-score-wrap">
+        <span class="leader-score">${leader.score}</span>
+        <span class="leader-pts-label">Points</span>
+      </div>
+    </div>
+    ${chaser ? `
+    <div class="chaser">
+      <p class="eyebrow">Next Floor</p>
+      <p class="chaser-floor">${pad(chaser.number)}</p>
+      <p class="chaser-score tabular">${chaser.score} <span style="font-size:0.75rem;color:var(--text-muted);">PTS</span></p>
+      <p class="chaser-gap">${leader.score - chaser.score} point gap</p>
+      <p style="margin-top:8px;font-size:0.875rem;color:var(--text-muted);">${chaser.ra} &middot; Floor ${chaser.number}</p>
+    </div>` : ""}
+  `;
+
+  /* ---- Standings table ---- */
+  el("standings-body").innerHTML = standings.map((s) => `
+    <tr>
+      <td class="rank rank-${s.rank}">${pad(s.rank)}</td>
+      <td>
+        <div class="floor-info">
+          <span class="floor-name">${floorLabel(s.number)}${s.isTied ? '<span class="tie-badge">Tied</span>' : ""}</span>
+          <span class="floor-ra">${s.ra} &middot; ${s.nickname} &middot; ${s.residents} residents</span>
+        </div>
+      </td>
+      <td class="col-meter">
+        <div class="meter-bar"><div class="meter-fill" style="width:${(s.meter * 100).toFixed(1)}%"></div></div>
+      </td>
+      <td class="score-cell tabular">${s.score}<span class="unit">PTS</span></td>
+    </tr>
+  `).join("");
+
+  /* ---- Stats ---- */
+  const catTotals = CATEGORIES.map((c) => ({
+    name: c.name,
+    total: AWARDS.filter((a) => a.cat === c.id).reduce((t, a) => t + a.pts, 0),
+  })).sort((a, b) => b.total - a.total);
+
+  let tightest = Infinity;
+  for (let i = 0; i < standings.length - 1; i++) {
+    const g = standings[i].score - standings[i + 1].score;
+    if (g > 0 && g < tightest) tightest = g;
+  }
+
+  el("stat-grid").innerHTML = [
+    { label: "Points Awarded", value: totalPointsAwarded(), detail: totalEvents() + " results posted" },
+    { label: coLeaders.length > 1 ? "Joint Leaders" : "Leader",
+      value: coLeaders.map((s) => pad(s.number)).join(" / "),
+      detail: leader.score + " pts &middot; " + coLeaders.map((s) => s.ra).join(", ") },
+    { label: "Tightest Gap", value: (tightest === Infinity ? "—" : tightest + " pts"), detail: "Between adjacent ranks" },
+    { label: "Top Category", value: catTotals[0].name, detail: catTotals[0].total + " pts awarded so far" },
+    { label: "Days Into Season", value: daysIntoSeason(), detail: SEASON.starts + " → " + SEASON.ends },
+    { label: "Average Score", value: Math.round(totalPointsAwarded() / FLOORS.length), detail: "Mean across all seven floors" },
+  ].map((s) => `
+    <div class="stat-card">
+      <dt>${s.label}</dt>
+      <dd${String(s.value).length > 6 ? ' class="is-text"' : ""}>${s.value}</dd>
+      <p class="stat-detail">${s.detail}</p>
+    </div>
+  `).join("");
+
+  /* ---- Activity preview ---- */
+  const recent = AWARDS.slice(0, 7);
+  el("activity-preview").innerHTML = recent.length ? recent.map((a) => {
+    const f = getFloor(a.floor);
+    return `
+      <li class="activity-item">
+        <span class="activity-date">${formatDate(a.date)}</span>
+        <div>
+          <p class="activity-desc">${a.note}</p>
+          <p class="activity-floor">${floorLabel(a.floor)} &middot; ${f ? f.ra : ""} &middot; ${categoryById(a.cat).name}</p>
+        </div>
+        <span class="activity-pts tabular">${a.pts > 0 ? "+" + a.pts : '<span class="no-pts">—</span>'}</span>
+      </li>
+    `;
+  }).join("") : '<li class="empty">No points posted yet.</li>';
+
+  /* ---- Breakdown per floor ---- */
+  el("breakdown-grid").innerHTML = standings.map((s) => {
+    const cats = s.categoryBreakdown.filter((c) => c.points > 0);
+    const colors = { attendance: "#E84A27", meetings: "#FF6B47", community: "#FFB347",
+                     iconvos: "#4A90D9", notes: "#50C878", clean: "#9B59B6", nominations: "#E67E22" };
+    return `
+      <div class="panel" style="padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;">
+          <div>
+            <p style="font-family:var(--font-display);font-weight:700;font-size:1.1rem;">${floorLabel(s.number)}</p>
+            <p style="font-size:0.75rem;color:var(--text-muted);">${s.ra} &middot; rank ${pad(s.rank)}${s.isTied ? " (tied)" : ""}</p>
+          </div>
+          <span class="tabular" style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;color:var(--orange);">${s.score}</span>
+        </div>
+        ${cats.length ? `
+          <div class="breakdown-bar" style="margin-bottom:14px;">
+            ${cats.map((c) => `<span style="width:${((c.points / s.score) * 100).toFixed(1)}%;background:${colors[c.id]};"></span>`).join("")}
+          </div>
+          <div style="display:grid;gap:6px;">
+            ${cats.map((c) => `
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;">
+                <span style="width:8px;height:8px;border-radius:2px;background:${colors[c.id]};flex-shrink:0;"></span>
+                <span style="color:var(--text-muted);">${c.name}</span>
+                <span class="tabular" style="margin-left:auto;font-weight:600;">${c.points}</span>
+              </div>
+            `).join("")}
+          </div>
+        ` : `<p style="font-size:0.8125rem;color:var(--text-dim);">No points on the board yet.</p>`}
+      </div>
+    `;
+  }).join("");
+})();
+</script>
+
+</body>
+</html>

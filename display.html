@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display — HLLC Floor Competition</title>
+  <meta name="description" content="Lobby display board for the Honors LLC floor competition.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Lobby / TV mode: no chrome, oversized type, fills the screen exactly once. */
+    body { height: 100dvh; overflow: hidden; }
+    .tv {
+      position: relative; z-index: 1;
+      height: 100dvh;
+      display: flex; flex-direction: column;
+      padding: 3vh 4vw;
+      gap: 2vh;
+    }
+    .tv-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 3vw; flex-shrink: 0;
+    }
+    .tv-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.6vw, 3.75rem);
+      font-weight: 700; letter-spacing: -0.035em; line-height: 0.95;
+    }
+    .tv-title span { color: var(--orange); }
+    .tv-eyebrow {
+      font-size: clamp(0.625rem, 0.9vw, 0.9375rem);
+      font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange);
+    }
+    .tv-meta { text-align: right; flex-shrink: 0; }
+    .tv-clock {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.8vw, 3rem);
+      font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1;
+    }
+    .tv-date {
+      margin-top: 0.6vh;
+      font-size: clamp(0.5625rem, 0.85vw, 0.875rem);
+      font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .tv-board { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .tv-row {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 4.5vw 1fr 22vw 8vw;
+      align-items: center;
+      gap: 2vw;
+      border-top: 1px solid var(--line);
+    }
+    .tv-row:last-child { border-bottom: 1px solid var(--line); }
+    .tv-row.is-leader { background: linear-gradient(90deg, rgba(232,74,39,0.12), transparent 70%); }
+    .tv-rank {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      font-weight: 700; color: var(--text-dim);
+      font-variant-numeric: tabular-nums; letter-spacing: -0.04em;
+    }
+    .tv-rank.r1 { color: var(--orange); }
+    .tv-rank.r2 { color: var(--gold); }
+    .tv-rank.r3 { color: var(--text-muted); }
+    .tv-floor {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2.6vw, 2.5rem);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+    }
+    .tv-ra {
+      margin-top: 0.4vh;
+      font-size: clamp(0.5625rem, 1vw, 1rem);
+      color: var(--text-muted);
+    }
+    .tv-meter { height: 0.9vh; min-height: 6px; background: rgba(255,255,255,0.07); border-radius: 999px; overflow: hidden; }
+    .tv-meter span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--orange), var(--orange-bright)); }
+    .tv-score {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      font-weight: 700; text-align: right;
+      font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+    }
+    .tv-foot {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2vw;
+      padding-top: 1.4vh;
+      font-size: clamp(0.5625rem, 0.85vw, 0.875rem);
+      font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .tv-foot .live { display: inline-flex; align-items: center; gap: 0.6vw; color: var(--orange); }
+    .tv-foot .live i {
+      width: 0.7vh; height: 0.7vh; min-width: 6px; min-height: 6px;
+      border-radius: 50%; background: var(--orange);
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @media (max-width: 700px) {
+      .tv-row { grid-template-columns: 12vw 1fr 18vw; }
+      .tv-meter { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="tv">
+  <div class="tv-head">
+    <div>
+      <p class="tv-eyebrow" id="tv-eyebrow"></p>
+      <h1 class="tv-title">WARDALL IS<br><span>OUT OF THIS WORLD</span></h1>
+    </div>
+    <div class="tv-meta">
+      <p class="tv-clock" id="tv-clock"></p>
+      <p class="tv-date" id="tv-date"></p>
+    </div>
+  </div>
+
+  <div class="tv-board" id="tv-board"></div>
+
+  <div class="tv-foot">
+    <span class="live"><i></i> Live standings</span>
+    <span id="tv-foot-right"></span>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  const pad = (n) => String(n).padStart(2, "0");
+  const standings = buildStandings();
+
+  document.getElementById("tv-eyebrow").textContent =
+    "HLLC Floor Competition · Wardall Hall · " + SEASON.term;
+
+  document.getElementById("tv-board").innerHTML = standings.map((s) => `
+    <div class="tv-row${s.rank === 1 ? " is-leader" : ""}">
+      <span class="tv-rank r${s.rank}">${pad(s.rank)}</span>
+      <div>
+        <p class="tv-floor">${floorLabel(s.number)}${s.isTied ? '<span class="tie-badge">Tied</span>' : ""}</p>
+        <p class="tv-ra">${s.ra} &middot; ${s.nickname}</p>
+      </div>
+      <div class="tv-meter"><span style="width:${(s.meter * 100).toFixed(1)}%"></span></div>
+      <span class="tv-score">${s.score}</span>
+    </div>
+  `).join("");
+
+  document.getElementById("tv-foot-right").textContent =
+    totalPointsAwarded() + " points awarded · updated " + formatDate(SEASON.updated);
+
+  function tick() {
+    const now = new Date();
+    document.getElementById("tv-clock").textContent =
+      now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    document.getElementById("tv-date").textContent =
+      now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  }
+  tick();
+  setInterval(tick, 15000);
+
+  // Pick up edits to data.js without anyone touching the lobby TV.
+  setTimeout(() => location.reload(), 300000);
+})();
+</script>
+
+</body>
+</html>
