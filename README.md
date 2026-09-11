@@ -43,6 +43,7 @@ Open `data.js`. Find the `AWARDS` list. Add a line per floor, newest at the top:
 | `place` | `1`, `2`, `3`… or `null` for flat awards |
 | `note` | the one line residents read. Say what earned it |
 | `reached` | *optional.* how many residents took part, e.g. `reached: 20` |
+| `mult` | *optional.* multiplier on a double-points night, e.g. `mult: 2` |
 
 Then change `SEASON.updated` to today's date, save, and refresh.
 
@@ -147,20 +148,28 @@ reward whoever schedules the most:
 
 | Category | How it is judged | Award |
 | --- | --- | --- |
-| Community Initiatives | judged by staff, top 3 | 60 / 45 / 30 |
+| Community Initiatives | turnout + wins | 1 per resident + 2 per win |
 | Cleanest Floor | one floor per week | 25 |
 | Resident Nominations | flat, per approved award | 10 each |
-| Event Wins | flat, per win | 2 each |
 
 **Double-points nights.** Some events are advertised as double points. Write the
-doubled figure into `pts` and leave `reached` as the true headcount — the site
-uses `reached` for the turnout bar and the percentage, so the participation
-figure stays honest while the score reflects the promotion. Say so in the note,
-as the Sept 9 Minute to Win-It rows do.
+doubled figure into `pts`, leave `reached` as the true headcount, and add
+`mult: 2`. The site then shows a gold **⚡ 2× POINTS** badge on that block in the
+activity log, and the row reads "26 residents × 2 points" so the arithmetic is
+visible — otherwise a resident sees 26 people and 52 points and has no way to
+know why. `reached` still drives the turnout bar and percentage, so the
+participation figure stays honest while the score reflects the promotion. The
+Sept 9 Minute to Win-It rows are the worked example.
 
-**Event Wins** is two points every time a resident wins a game or contest at an
-HLLC event — double what showing up is worth, counted per win, so a resident who
-takes three games earns three times. There is deliberately **no bonus for
+**Community Initiatives** are the hall-wide initiative nights, and they are
+scored like a shared event rather than judged: a point per resident who signs
+in, plus 2 per game win. Minute to Win-It was Community Initiative 1, so all of
+its rows — attendance and wins — live under that category and appear together
+behind the Community Initiatives filter.
+
+**Game wins** are two points each — double what showing up is worth, counted per
+win, so a resident who takes three games earns three times. They are recorded
+under the initiative they were won at. There is deliberately **no bonus for
 sweeping** an event. A sweep bonus would push floors to field their single
 strongest player in every game instead of rotating people in, which cuts against
 the whole point of the competition; and on a public board it would single out one

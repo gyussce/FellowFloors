@@ -74,9 +74,9 @@ const CATEGORIES = [
     award: "5 / 10 / 20 / 30",
     desc: "Your RA's own floor events, scored on how many residents turn up: 5+ earns 5, 10+ earns 10, 20+ earns 20, 30+ earns 30. Capped at 30 so nobody wins on volume alone." },
 
-  { id: "community",   name: "Community Initiatives",  icon: "\u{1F30C}", kind: "judged",
-    award: "60 / 45 / 30",
-    desc: "RA-run initiatives judged against the other floors by the Honors LLC staff." },
+  { id: "community",   name: "Community Initiatives",  icon: "\u{1F30C}", kind: "initiative",
+    award: "1 per resident + 2 per win",
+    desc: "Hall-wide initiative nights run for the whole building. Scored like a shared event — every resident of your floor who signs in is one point — plus two points for each game or contest one of your residents wins. Some nights are advertised as double points." },
 
   { id: "notes",       name: "Notes for Introduction", icon: "\u{1F4DD}", kind: "per-person",
     award: "1 each",
@@ -85,10 +85,6 @@ const CATEGORIES = [
   { id: "clean",       name: "Cleanest Floor",         icon: "\u{2728}",  kind: "weekly",
     award: "25 / week",
     desc: "Awarded each week to the floor the building service workers name cleanest." },
-
-  { id: "wins",        name: "Event Wins",             icon: "\u{1F947}", kind: "flat",
-    award: "2 per win",
-    desc: "Two points every time a resident wins a game or contest at an HLLC event — double what showing up is worth. Counted per win, so winning three games earns three times." },
 
   { id: "nominations", name: "Resident Nominations",   icon: "\u{1F3C6}", kind: "flat",
     award: "10 each",
@@ -107,6 +103,10 @@ const CATEGORIES = [
              null for per-person, threshold and flat awards.
              Tied floors share a place AND the points.
      note    the one line residents read. Usually the event name.
+     mult    OPTIONAL. The multiplier on a double-points night, e.g. `mult: 2`.
+             `pts` must already be the multiplied figure — this field only
+             tells the site to show a "2× POINTS" badge and explain the maths,
+             so residents can see why the score is not the headcount.
      reached OPTIONAL but fill it in whenever you have a headcount.
              The site turns it into "20 of 51 · 39.2%" with a bar, so a
              floor that showed up and missed the top three still has
@@ -135,30 +135,30 @@ const AWARDS = [
   { date: "2026-09-10", floor: 9, cat: "attendance", pts: 1, place: null, reached: 1,
     note: "Clay & Cane's" },
 
-  // 2026-09-09  Minute to Win-It — game wins (2 pts each, counted per win)
-  { date: "2026-09-09", floor: 8, cat: "wins", pts: 10, place: null,
-    note: "Minute to Win-It — 5 game wins across cheeseballs, tallest tower and spoon relay" },
-  { date: "2026-09-09", floor: 10, cat: "wins", pts: 10, place: null,
-    note: "Minute to Win-It — 5 game wins across cheeseballs, tallest tower and spoon relay" },
-  { date: "2026-09-09", floor: 7, cat: "wins", pts: 6, place: null,
-    note: "Minute to Win-It — 3 game wins in the spoon relay" },
-  { date: "2026-09-09", floor: 6, cat: "wins", pts: 2, place: null,
-    note: "Minute to Win-It — 1 game win in the tallest tower" },
+  // 2026-09-09  Community Initiative 1 — game wins (2 pts each, counted per win)
+  { date: "2026-09-09", floor: 8, cat: "community", pts: 10, place: null,
+    note: "Minute to Win-It game wins — 5 wins across cheeseballs, tallest tower and spoon relay" },
+  { date: "2026-09-09", floor: 10, cat: "community", pts: 10, place: null,
+    note: "Minute to Win-It game wins — 5 wins across cheeseballs, tallest tower and spoon relay" },
+  { date: "2026-09-09", floor: 7, cat: "community", pts: 6, place: null,
+    note: "Minute to Win-It game wins — 3 wins in the spoon relay" },
+  { date: "2026-09-09", floor: 6, cat: "community", pts: 2, place: null,
+    note: "Minute to Win-It game wins — 1 win in the tallest tower" },
 
-  // 2026-09-09  Minute to Win-It — attendance, DOUBLE POINTS
+  // 2026-09-09  Community Initiative 1: Minute to Win-It — attendance, DOUBLE POINTS
   // Advertised as a double-points night in the kickoff email, so pts is twice
   // `reached`. `reached` stays the true headcount so the turnout bar and the
   // percentages on the page remain honest.
-  { date: "2026-09-09", floor: 7, cat: "attendance", pts: 52, place: null, reached: 26,
-    note: "Minute to Win-It — double points" },
-  { date: "2026-09-09", floor: 10, cat: "attendance", pts: 30, place: null, reached: 15,
-    note: "Minute to Win-It — double points" },
-  { date: "2026-09-09", floor: 8, cat: "attendance", pts: 12, place: null, reached: 6,
-    note: "Minute to Win-It — double points" },
-  { date: "2026-09-09", floor: 6, cat: "attendance", pts: 4, place: null, reached: 2,
-    note: "Minute to Win-It — double points" },
-  { date: "2026-09-09", floor: 12, cat: "attendance", pts: 4, place: null, reached: 2,
-    note: "Minute to Win-It — double points" },
+  { date: "2026-09-09", floor: 7, cat: "community", pts: 52, place: null, reached: 26, mult: 2,
+    note: "Minute to Win-It — 26 residents × 2 points" },
+  { date: "2026-09-09", floor: 10, cat: "community", pts: 30, place: null, reached: 15, mult: 2,
+    note: "Minute to Win-It — 15 residents × 2 points" },
+  { date: "2026-09-09", floor: 8, cat: "community", pts: 12, place: null, reached: 6, mult: 2,
+    note: "Minute to Win-It — 6 residents × 2 points" },
+  { date: "2026-09-09", floor: 6, cat: "community", pts: 4, place: null, reached: 2, mult: 2,
+    note: "Minute to Win-It — 2 residents × 2 points" },
+  { date: "2026-09-09", floor: 12, cat: "community", pts: 4, place: null, reached: 2, mult: 2,
+    note: "Minute to Win-It — 2 residents × 2 points" },
 
   // 2026-09-08  Undergraduate Research at the University of Illinois Pan
   { date: "2026-09-08", floor: 10, cat: "attendance", pts: 4, place: null, reached: 4,

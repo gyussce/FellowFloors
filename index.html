@@ -79,7 +79,7 @@
         <p class="how-body" id="how-noms"></p>
       </div>
       <div class="how-card">
-        <p class="how-kicker">Judged</p>
+        <p class="how-kicker">Hall-wide nights</p>
         <p class="how-title">Community initiatives</p>
         <p class="how-body" id="how-community"></p>
       </div>
@@ -305,8 +305,10 @@
     "otherwise hear about? Put their name in on the points form.";
 
   el("how-community").innerHTML =
-    `<strong>${categoryById("community").award}</strong>, decided by the Honors LLC staff rather than ` +
-    "a headcount. This is where your RA's bigger ideas for the floor are rewarded.";
+    `<strong>${categoryById("community").award}</strong>. The hall-wide initiative nights &mdash; ` +
+    "Minute to Win-It was the first &mdash; score like any shared event, with a point for every " +
+    "resident of your floor who signs in, and two more for each game your floor wins. Some are " +
+    "advertised as double points.";
 
   /* The point that matters most to a floor sitting low on the board. */
   const open = uncontestedCategories();

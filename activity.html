@@ -105,7 +105,11 @@
         <div class="occasion">
           <div class="occasion-head">
             <div>
-              <p class="occasion-title">${cat.icon} ${o.title || cat.name}</p>
+              <p class="occasion-title">${cat.icon} ${o.title || cat.name}${(() => {
+                const m = o.rows[0] && o.rows[0].mult;
+                return m && m > 1 && o.rows.every((r) => r.mult === m)
+                  ? `<span class="mult-badge">&#9889; ${m}&times; points</span>` : "";
+              })()}</p>
               <p class="occasion-meta" style="margin-top:4px;">${formatDate(o.date)} ${o.date.slice(0, 4)} &middot; ${cat.name} &middot; ${cat.award}</p>
             </div>
             <p class="occasion-meta tabular">${awarded} pts awarded</p>
