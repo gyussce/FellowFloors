@@ -20,7 +20,7 @@ const SEASON = {
   tagline: "Wardall is Out of This World",
   starts: "2026-08-17",
   ends: "2026-12-18",
-  updated: "2026-09-09",   // <-- bump this when you post new points
+  updated: "2026-09-11",   // <-- bump this when you post new points
 };
 
 /* ------------------------------------------------------------------
@@ -86,6 +86,10 @@ const CATEGORIES = [
     award: "25 / week",
     desc: "Awarded each week to the floor the building service workers name cleanest." },
 
+  { id: "wins",        name: "Event Wins",             icon: "\u{1F947}", kind: "flat",
+    award: "2 per win",
+    desc: "Two points every time a resident wins a game or contest at an HLLC event — double what showing up is worth. Counted per win, so winning three games earns three times." },
+
   { id: "nominations", name: "Resident Nominations",   icon: "\u{1F3C6}", kind: "flat",
     award: "10 each",
     desc: "Ten points for every approved nomination from the resident nomination form. No cap." },
@@ -114,6 +118,47 @@ const CATEGORIES = [
    threshold it clears.
    ------------------------------------------------------------------ */
 const AWARDS = [
+
+  // 2026-09-10  Clay & Cane's
+  { date: "2026-09-10", floor: 7, cat: "attendance", pts: 16, place: null, reached: 16,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 12, cat: "attendance", pts: 9, place: null, reached: 9,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 8, cat: "attendance", pts: 5, place: null, reached: 5,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 11, cat: "attendance", pts: 4, place: null, reached: 4,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 6, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 10, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Clay & Cane's" },
+  { date: "2026-09-10", floor: 9, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Clay & Cane's" },
+
+  // 2026-09-09  Minute to Win-It — game wins (2 pts each, counted per win)
+  { date: "2026-09-09", floor: 8, cat: "wins", pts: 10, place: null,
+    note: "Minute to Win-It — 5 game wins across cheeseballs, tallest tower and spoon relay" },
+  { date: "2026-09-09", floor: 10, cat: "wins", pts: 10, place: null,
+    note: "Minute to Win-It — 5 game wins across cheeseballs, tallest tower and spoon relay" },
+  { date: "2026-09-09", floor: 7, cat: "wins", pts: 6, place: null,
+    note: "Minute to Win-It — 3 game wins in the spoon relay" },
+  { date: "2026-09-09", floor: 6, cat: "wins", pts: 2, place: null,
+    note: "Minute to Win-It — 1 game win in the tallest tower" },
+
+  // 2026-09-09  Minute to Win-It — attendance, DOUBLE POINTS
+  // Advertised as a double-points night in the kickoff email, so pts is twice
+  // `reached`. `reached` stays the true headcount so the turnout bar and the
+  // percentages on the page remain honest.
+  { date: "2026-09-09", floor: 7, cat: "attendance", pts: 52, place: null, reached: 26,
+    note: "Minute to Win-It — double points" },
+  { date: "2026-09-09", floor: 10, cat: "attendance", pts: 30, place: null, reached: 15,
+    note: "Minute to Win-It — double points" },
+  { date: "2026-09-09", floor: 8, cat: "attendance", pts: 12, place: null, reached: 6,
+    note: "Minute to Win-It — double points" },
+  { date: "2026-09-09", floor: 6, cat: "attendance", pts: 4, place: null, reached: 2,
+    note: "Minute to Win-It — double points" },
+  { date: "2026-09-09", floor: 12, cat: "attendance", pts: 4, place: null, reached: 2,
+    note: "Minute to Win-It — double points" },
 
   // 2026-09-08  Undergraduate Research at the University of Illinois Pan
   { date: "2026-09-08", floor: 10, cat: "attendance", pts: 4, place: null, reached: 4,

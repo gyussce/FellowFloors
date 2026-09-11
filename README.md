@@ -150,6 +150,22 @@ reward whoever schedules the most:
 | Community Initiatives | judged by staff, top 3 | 60 / 45 / 30 |
 | Cleanest Floor | one floor per week | 25 |
 | Resident Nominations | flat, per approved award | 10 each |
+| Event Wins | flat, per win | 2 each |
+
+**Double-points nights.** Some events are advertised as double points. Write the
+doubled figure into `pts` and leave `reached` as the true headcount — the site
+uses `reached` for the turnout bar and the percentage, so the participation
+figure stays honest while the score reflects the promotion. Say so in the note,
+as the Sept 9 Minute to Win-It rows do.
+
+**Event Wins** is two points every time a resident wins a game or contest at an
+HLLC event — double what showing up is worth, counted per win, so a resident who
+takes three games earns three times. There is deliberately **no bonus for
+sweeping** an event. A sweep bonus would push floors to field their single
+strongest player in every game instead of rotating people in, which cuts against
+the whole point of the competition; and on a public board it would single out one
+identifiable resident, which is exactly what the FERPA rule below exists to
+prevent.
 
 The **Floor Programming ladder**: 5+ residents earns 5, 10+ earns 10, 20+ earns
 20, 30+ earns 30. Capped at 30, so an RA who runs a lot of events is rewarded but
@@ -227,6 +243,12 @@ site can be traced back to the individual check-ins behind it.
 **That file is gitignored and must stay that way.** It contains student names,
 NetIDs and student ID numbers for roughly 300 residents. This repository is
 public. `data.js` holds only aggregate counts, which is why it is safe to commit.
+
+**No resident name ever goes in this repository.** FERPA covers student
+education records, and attendance at a residence-hall event is one. Award notes
+name the *event* and the floor, never a person — "Minute to Win-It — 5 game
+wins", not who won them. RA first names are fine: they are staff, and they are
+already published on the Floors table.
 
 To rebuild after pulling fresh Roompact data, the counting rules applied are:
 drop any record whose name matches an RA, drop anyone not in Wardall Hall floors
