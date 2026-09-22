@@ -135,14 +135,15 @@ Two kinds of event, scored differently on purpose.
 | Shared HLLC Events | every person counts | 1 per resident, no cap |
 | Notes for Introduction | every note counts | 1 each |
 
-**Floor events** — only your own floor invited, so a raw headcount would just
-reward whoever schedules the most:
+**Floor events** — your own floor's meetings and your RA's own programming.
+Anyone visiting from another floor earns that point for *their* floor, not the
+host's:
 
 | Category | How it is judged | Award |
 | --- | --- | --- |
-| Floor Meetings | % of your roster, top 3 | 40 / 30 / 20 |
+| Floor Meetings | every person counts | 1 per resident |
+| Floor Programming | every person counts | 1 per resident |
 | iConvos | % of your roster, top 3 | 100 / 75 / 50 |
-| Floor Programming | turnout thresholds | 5 / 10 / 20 / 30 |
 
 **Everything else:**
 
@@ -176,9 +177,17 @@ the whole point of the competition; and on a public board it would single out on
 identifiable resident, which is exactly what the FERPA rule below exists to
 prevent.
 
-The **Floor Programming ladder**: 5+ residents earns 5, 10+ earns 10, 20+ earns
-20, 30+ earns 30. Capped at 30, so an RA who runs a lot of events is rewarded but
-cannot win the season on volume.
+**One person, one point.** As of Sept 22 2026 every attendance-based category
+works the same way: each resident who turns up is worth one point to their floor,
+with no cap and no placement. That replaced an earlier mix of placement scales
+and turnout thresholds. The rule is deliberately simple so residents can predict
+it — turn up, your floor scores.
+
+Two entries predate the change and are still on the old basis: **Floor Meeting
+#1** (Aug 20, scored 40/30/20 by placement) and **Pizza and Planes** (Aug 31,
+scored 20 on the old threshold ladder). Rescaling them to per-person would use
+the headcounts already recorded in their `reached` fields — 37/34/34/34/31/29/20
+for the meeting and 26 for Pizza and Planes.
 
 Counting rules:
 
@@ -189,16 +198,6 @@ Counting rules:
   so there is nothing to break.
 - Percentage categories use roster size, so a floor of 48 is never at a
   disadvantage against a floor of 52.
-
-### Why the percentages are only on the floor-event categories
-
-Roster sizes span 48 to 52 — an 8% spread. Ranking the *shared* events by
-per-capita rate instead of raw count produces an identical order, so dividing
-would add arithmetic to the explanation for no change in outcome. The floor-event
-categories are different: there is no cross-floor contest in them at all, so a
-percentage is the only fair comparison available.
-
----
 
 ## Hosting it
 

@@ -62,17 +62,17 @@ const CATEGORIES = [
     award: "1 per resident",
     desc: "Every resident of your floor who signs in at an HLLC event is one point. No cap, no placement — turn out and you score." },
 
-  { id: "meetings",    name: "Floor Meetings",         icon: "\u{1F465}", kind: "percentage",
-    award: "40 / 30 / 20",
-    desc: "Ranked on the percentage of your floor that comes to its own meeting. Top three score. A percentage, so a 48-resident floor is not at a disadvantage." },
+  { id: "meetings",    name: "Floor Meetings",         icon: "\u{1F465}", kind: "per-person",
+    award: "1 per resident",
+    desc: "Every resident of your floor who comes to its meeting is one point. No cap and no placement — the more of your floor turns up, the more you score." },
 
   { id: "iconvos",     name: "iConvos",                icon: "\u{1F4AC}", kind: "percentage",
     award: "100 / 75 / 50",
     desc: "Ranked on the percentage of your floor that completes an iConvo with their RA. Top three score." },
 
-  { id: "programming", name: "Floor Programming",      icon: "\u{1F389}", kind: "threshold",
-    award: "5 / 10 / 20 / 30",
-    desc: "Your RA's own floor events, scored on how many residents turn up: 5+ earns 5, 10+ earns 10, 20+ earns 20, 30+ earns 30. Capped at 30 so nobody wins on volume alone." },
+  { id: "programming", name: "Floor Programming",      icon: "\u{1F389}", kind: "per-person",
+    award: "1 per resident",
+    desc: "Your RA's own floor events. Every resident who turns up is one point, and anyone visiting from another floor earns that point for their own floor instead." },
 
   { id: "community",   name: "Community Initiatives",  icon: "\u{1F30C}", kind: "initiative",
     award: "1 per resident + 2 per win",
@@ -119,36 +119,51 @@ const CATEGORIES = [
    ------------------------------------------------------------------ */
 const AWARDS = [
 
-  // 2026-09-21  Floor Meeting #2 — placement by turnout percentage
-  // Floors 6, 7 and 9 had not held their second meeting as of Sept 22, so they
-  // have no line here. They get one when they hold theirs.
-  { date: "2026-09-21", floor: 8, cat: "meetings", pts: 10, place: 1,
+  // 2026-09-21  Floor Meeting #2 — one point per resident who attended
+  // Floors 6, 7 and 9 had not held their second meeting as of Sept 22.
+  { date: "2026-09-21", floor: 8, cat: "meetings", pts: 37, place: null, reached: 37,
     note: "Floor Meeting #2 — Community Responsibility Floor Meeting, Sept 21" },
-  { date: "2026-09-21", floor: 10, cat: "meetings", pts: 6, place: 2,
+  { date: "2026-09-17", floor: 10, cat: "meetings", pts: 34, place: null, reached: 34,
     note: "Floor Meeting #2 — Wardall Floor 10 2nd Meeting, Sept 17" },
-  { date: "2026-09-21", floor: 12, cat: "meetings", pts: 2, place: 3,
+  { date: "2026-09-21", floor: 12, cat: "meetings", pts: 28, place: null, reached: 28,
     note: "Floor Meeting #2 — Wardall Floor 12 Meeting 2, Sept 21" },
-  { date: "2026-09-21", floor: 11, cat: "meetings", pts: 0, place: 4,
+  { date: "2026-09-17", floor: 11, cat: "meetings", pts: 24, place: null, reached: 24,
     note: "Floor Meeting #2 — Wardall 11th Floor Community Responsibility Meeting, Sept 17" },
 
-  // 2026-09-21  Attendance block, Sept 11-21 window
-  // Two HLLC-wide events scored as one cumulative block, placed by turnout
-  // percentage: Study & Snacks (Sept 17) and the Time Management Workshop
-  // with The Jeffries Center (Sept 21).
-  { date: "2026-09-21", floor: 11, cat: "attendance", pts: 10, place: 1,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 10, cat: "attendance", pts: 6, place: 2,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 7, cat: "attendance", pts: 2, place: 3,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 8, cat: "attendance", pts: 0, place: 4,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 12, cat: "attendance", pts: 0, place: 5,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 6, cat: "attendance", pts: 0, place: 6,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
-  { date: "2026-09-21", floor: 9, cat: "attendance", pts: 0, place: 7,
-    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  // 2026-09-21  Time Management Workshop with The Jeffries Center
+  { date: "2026-09-21", floor: 10, cat: "attendance", pts: 4, place: null, reached: 4,
+    note: "Time Management Workshop with The Jeffries Center" },
+  { date: "2026-09-21", floor: 11, cat: "attendance", pts: 4, place: null, reached: 4,
+    note: "Time Management Workshop with The Jeffries Center" },
+  { date: "2026-09-21", floor: 6, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Time Management Workshop with The Jeffries Center" },
+  { date: "2026-09-21", floor: 12, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Time Management Workshop with The Jeffries Center" },
+  { date: "2026-09-21", floor: 7, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Time Management Workshop with The Jeffries Center" },
+  { date: "2026-09-21", floor: 8, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Time Management Workshop with The Jeffries Center" },
+
+  // 2026-09-17  Honors LLC Study & Snacks
+  { date: "2026-09-17", floor: 7, cat: "attendance", pts: 5, place: null, reached: 5,
+    note: "Study & Snacks" },
+  { date: "2026-09-17", floor: 11, cat: "attendance", pts: 4, place: null, reached: 4,
+    note: "Study & Snacks" },
+  { date: "2026-09-17", floor: 10, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Study & Snacks" },
+  { date: "2026-09-17", floor: 8, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Study & Snacks" },
+
+  // 2026-09-13  9th Floor Picnic and Games — Floor 9's own event.
+  // Visitors from other floors earn for their own floor, one point each.
+  { date: "2026-09-13", floor: 9, cat: "programming", pts: 17, place: null, reached: 17,
+    note: "9th Floor Picnic and Games" },
+  { date: "2026-09-13", floor: 8, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "9th Floor Picnic and Games — visiting from another floor" },
+  { date: "2026-09-13", floor: 7, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "9th Floor Picnic and Games — visiting from another floor" },
+  { date: "2026-09-13", floor: 12, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "9th Floor Picnic and Games — visiting from another floor" },
 
   // 2026-09-10  Clay & Cane's
   { date: "2026-09-10", floor: 7, cat: "attendance", pts: 16, place: null, reached: 16,
