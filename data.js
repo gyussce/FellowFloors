@@ -20,7 +20,7 @@ const SEASON = {
   tagline: "Wardall is Out of This World",
   starts: "2026-08-17",
   ends: "2026-12-18",
-  updated: "2026-09-11",   // <-- bump this when you post new points
+  updated: "2026-09-22",   // <-- bump this when you post new points
 };
 
 /* ------------------------------------------------------------------
@@ -118,6 +118,37 @@ const CATEGORIES = [
    threshold it clears.
    ------------------------------------------------------------------ */
 const AWARDS = [
+
+  // 2026-09-21  Floor Meeting #2 — placement by turnout percentage
+  // Floors 6, 7 and 9 had not held their second meeting as of Sept 22, so they
+  // have no line here. They get one when they hold theirs.
+  { date: "2026-09-21", floor: 8, cat: "meetings", pts: 10, place: 1,
+    note: "Floor Meeting #2 — Community Responsibility Floor Meeting, Sept 21" },
+  { date: "2026-09-21", floor: 10, cat: "meetings", pts: 6, place: 2,
+    note: "Floor Meeting #2 — Wardall Floor 10 2nd Meeting, Sept 17" },
+  { date: "2026-09-21", floor: 12, cat: "meetings", pts: 2, place: 3,
+    note: "Floor Meeting #2 — Wardall Floor 12 Meeting 2, Sept 21" },
+  { date: "2026-09-21", floor: 11, cat: "meetings", pts: 0, place: 4,
+    note: "Floor Meeting #2 — Wardall 11th Floor Community Responsibility Meeting, Sept 17" },
+
+  // 2026-09-21  Attendance block, Sept 11-21 window
+  // Two HLLC-wide events scored as one cumulative block, placed by turnout
+  // percentage: Study & Snacks (Sept 17) and the Time Management Workshop
+  // with The Jeffries Center (Sept 21).
+  { date: "2026-09-21", floor: 11, cat: "attendance", pts: 10, place: 1,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 10, cat: "attendance", pts: 6, place: 2,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 7, cat: "attendance", pts: 2, place: 3,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 8, cat: "attendance", pts: 0, place: 4,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 12, cat: "attendance", pts: 0, place: 5,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 6, cat: "attendance", pts: 0, place: 6,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
+  { date: "2026-09-21", floor: 9, cat: "attendance", pts: 0, place: 7,
+    note: "Study & Snacks + Time Management Workshop — attendance block" },
 
   // 2026-09-10  Clay & Cane's
   { date: "2026-09-10", floor: 7, cat: "attendance", pts: 16, place: null, reached: 16,
