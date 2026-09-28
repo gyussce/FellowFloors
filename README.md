@@ -30,15 +30,15 @@ too.
 Open `data.js`. Find the `AWARDS` list. Add a line per floor, newest at the top:
 
 ```js
-{ date: "2026-09-15", floor: 9, cat: "community", pts: 15, place: 1,
-  note: "Study Night — 1st place" },
+{ date: "2026-09-15", floor: 9, cat: "attendance", pts: 15, place: null, reached: 15,
+  note: "Study Night" },
 ```
 
 | Field | What goes in it |
 | --- | --- |
 | `date` | `"YYYY-MM-DD"` |
 | `floor` | `6`–`12` |
-| `cat` | an `id` from `CATEGORIES` — `attendance`, `meetings`, `community`, `iconvos`, `notes`, `clean`, `nominations` |
+| `cat` | an `id` from `CATEGORIES` — `attendance`, `meetings`, `programming`, `community`, `iconvos`, `notes`, `clean`, `nominations` |
 | `pts` | points awarded. `0` is fine and still shows the result |
 | `place` | `1`, `2`, `3`… or `null` for flat awards |
 | `note` | the one line residents read. Say what earned it |
@@ -65,44 +65,42 @@ standings and the log can never disagree with each other.
 
 ### Some worked examples
 
-A placement result across all seven floors — **post every floor, including the
-ones that scored nothing.** That is what makes the board fair to read: the zeroes
-come with their turnout attached, so fourth place reads as a near miss rather
-than an absence.
+An attendance result — one point per resident, with no placement:
 
 ```js
-{ date: "2026-10-01", floor: 12, cat: "meetings", pts: 10, place: 1, reached: 40,
-  note: "Floor Meeting #2" },
-{ date: "2026-10-01", floor: 7,  cat: "meetings", pts: 6,  place: 2, reached: 39,
-  note: "Floor Meeting #2" },
-{ date: "2026-10-01", floor: 8,  cat: "meetings", pts: 0,  place: 6, reached: 24,
-  note: "Floor Meeting #2" },
-// …every floor, 1st through 7th
+{ date: "2026-10-01", floor: 12, cat: "meetings", pts: 40, place: null, reached: 40,
+  note: "Floor Meeting #3" },
+{ date: "2026-10-01", floor: 7, cat: "meetings", pts: 39, place: null, reached: 39,
+  note: "Floor Meeting #3" },
+{ date: "2026-10-01", floor: 8, cat: "meetings", pts: 24, place: null, reached: 24,
+  note: "Floor Meeting #3" },
+// …post each floor's result, including zero attendance
 ```
 
-You do not need to write the percentage — the site works it out from `reached`
-and the floor's roster size.
+The site derives turnout percentages from `reached` and roster size for display.
+For attendance, set `pts` equal to `reached` unless an advertised bonus applies.
 
-A tie — give both floors the same `place` and the same `pts`:
+For iConvos, post every floor's placement, including zero-point results.
+Tied floors receive the same place and points; for example, a tie for third:
 
 ```js
-{ date: "2026-10-01", floor: 7,  cat: "meetings", pts: 2, place: 3, reached: 34,
-  note: "Floor Meeting #2 — tied for 3rd" },
-{ date: "2026-10-01", floor: 11, cat: "meetings", pts: 2, place: 3, reached: 34,
-  note: "Floor Meeting #2 — tied for 3rd" },
+{ date: "2026-10-01", floor: 7, cat: "iconvos", pts: 50, place: 3, reached: 34,
+  note: "iConvos — tied for 3rd" },
+{ date: "2026-10-01", floor: 11, cat: "iconvos", pts: 50, place: 3, reached: 34,
+  note: "iConvos — tied for 3rd" },
 ```
 
 A weekly cleanliness award — one line, no `place`:
 
 ```js
-{ date: "2026-09-15", floor: 10, cat: "clean", pts: 5, place: null,
+{ date: "2026-09-15", floor: 10, cat: "clean", pts: 25, place: null,
   note: "Cleanest floor of the week — named by the building service workers" },
 ```
 
 A resident nomination:
 
 ```js
-{ date: "2026-09-16", floor: 8, cat: "nominations", pts: 5, place: null,
+{ date: "2026-09-16", floor: 8, cat: "nominations", pts: 10, place: null,
   note: "Resident nomination approved — scholarship award" },
 ```
 
@@ -126,7 +124,7 @@ completion percentage. Keep it current if someone moves in or out.
 
 ## Scoring rules (Fall 2026)
 
-Two kinds of event, scored differently on purpose.
+Shared events, floor meetings and floor programming earn one point per resident.
 
 **Shared HLLC events** — every floor invited, so a headcount is a fair contest:
 
@@ -136,8 +134,8 @@ Two kinds of event, scored differently on purpose.
 | Notes for Introduction | every note counts | 1 each |
 
 **Floor events** — your own floor's meetings and your RA's own programming.
-Anyone visiting from another floor earns that point for *their* floor, not the
-host's:
+Meetings count only the floor's own residents. At floor programming, anyone
+visiting from another floor earns that point for *their* floor:
 
 | Category | How it is judged | Award |
 | --- | --- | --- |
@@ -185,9 +183,9 @@ it — turn up, your floor scores.
 
 Two entries predate the change and are still on the old basis: **Floor Meeting
 #1** (Aug 20, scored 40/30/20 by placement) and **Pizza and Planes** (Aug 31,
-scored 20 on the old threshold ladder). Rescaling them to per-person would use
-the headcounts already recorded in their `reached` fields — 37/34/34/34/31/29/20
-for the meeting and 26 for Pizza and Planes.
+scored 20 on the old threshold ladder). Keep these historical awards as posted;
+the one-point-per-resident rule applies going forward. iConvos retain their
+completion-percentage placement scoring.
 
 Counting rules:
 
@@ -219,18 +217,10 @@ every five minutes, so it picks up new points on its own.
 
 ## Why the home page leads with an explainer
 
-The percentage categories pay only the top three floors, so a floor can turn out
-respectably, land fourth, and score nothing there. Read cold, the standings table
-makes that look like apathy — which is discouraging, and wrong.
-
-So `index.html` opens with **How points work**, above the leaderboard. It leads
-with the shared-versus-floor distinction, because that one idea explains
-everything else: where everyone is invited, each person is a point; where only
-your floor is invited, it is a percentage or a threshold. Then the categories
-nobody has contested yet, and five concrete things a resident can do this week.
-The panel states plainly that a low total is not a floor where nobody showed up.
-The activity page repeats the point, and the display board carries a one-line
-version.
+`index.html` opens with **How points work**, above the leaderboard. Shared
+HLLC events, floor meetings and floor programming earn one point per resident.
+The panel also shows unscored categories and five ways residents can earn points.
+The display board repeats the attendance rule.
 
 Those numbers are computed, not typed — the count of unscored categories and the
 cleanliness projection come from `AWARDS` and `SEASON.ends`, so the message stays

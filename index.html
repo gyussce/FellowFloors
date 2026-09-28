@@ -37,9 +37,9 @@
     <div class="section-header">
       <p class="eyebrow eyebrow-accent">Read this first</p>
       <h2 class="section-title">How points work</h2>
-      <p class="section-desc">There are two kinds of event here, and they are scored differently on
-        purpose. Knowing which is which explains everything on the board below &mdash; including why
-        a floor can turn out well and still show a zero in a category.</p>
+      <p class="section-desc">One point per resident: sign in at shared HLLC events,
+        floor meetings and floor programming to earn points for your floor.
+        The category rules below explain other awards and advertised bonuses.</p>
     </div>
 
     <div class="split" style="gap:20px;">
@@ -58,11 +58,10 @@
         <p class="how-kicker">Your floor only</p>
         <p class="how-title">Floor events</p>
         <p class="how-body">
-          Nobody else is invited, so a raw headcount would be unfair. <strong>Floor meetings and
-          iConvos</strong> are ranked on the <strong>percentage</strong> of your floor that takes
-          part &mdash; top three score. <strong>Your RA's own events</strong> earn points by clearing
-          turnout thresholds instead, so a floor cannot win the year by running more events than
-          everyone else.
+          <strong>Floor meetings and your RA's own events</strong> earn
+          <strong>one point per resident</strong>, with no cap or placement.
+          Meetings count only that floor's own residents. At floor programming,
+          visitors earn their point for their own floor.
         </p>
       </div>
     </div>
@@ -334,9 +333,9 @@
 
   el("how-to-earn").innerHTML = [
     "<strong>Sign in at every HLLC event.</strong> One point per person, every time, no cap &mdash; this is the fastest way to move your floor. If you are not scanned, your floor gets nothing for you, however many of you were there.",
-    "<strong>Come to your floor meeting.</strong> Scored on the share of your floor that turns up, so every single person changes the percentage.",
+    "<strong>Come to your floor meeting.</strong> Each resident of your floor who attends earns one point.",
     `<strong>Finish your iConvo</strong> with your RA. Worth <strong>${categoryById("iconvos").award}</strong> to the top three floors by completion rate, and no floor has scored a single point there yet.`,
-    "<strong>Turn up to your RA's own floor events.</strong> They clear turnout thresholds &mdash; getting from nineteen people to twenty is worth ten points on its own.",
+    "<strong>Turn up to your RA's own floor events.</strong> Every resident who attends earns one point for their own floor.",
     `<strong>Nominate a floormate</strong> when something good happens to them. <strong>${categoryById("nominations").award}</strong>, no limit, and nobody else can do it for you.`,
   ].map((t) => `<li>${t}</li>`).join("");
 

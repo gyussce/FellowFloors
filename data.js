@@ -26,7 +26,7 @@ const SEASON = {
 /* ------------------------------------------------------------------
    FLOORS
    `residents` is the roster size. It is the denominator for the
-   percentage categories (floor meetings, iConvos), so keep it current.
+   turnout displays and percentage categories, so keep it current.
    `nickname` is flavour only — rename or blank them freely.
    ------------------------------------------------------------------ */
 const FLOORS = [
@@ -42,18 +42,10 @@ const FLOORS = [
 /* ------------------------------------------------------------------
    CATEGORIES — the Fall 2026 scoring rules.
 
-   There are two kinds of event, and they are scored differently on
-   purpose:
-
-     SHARED events — every HLLC floor is invited. A genuine contest,
-       so every resident who signs in is worth a point, uncapped.
-
-     FLOOR events — only your own floor is invited, so there is nobody
-       to compete against. iConvos and floor meetings are ranked on the
-       PERCENTAGE of your floor that took part, top three only. Your
-       RA's own programming is scored on a THRESHOLD LADDER, which
-       rewards real turnout without letting a floor win the year by
-       running more events than everyone else.
+   Shared HLLC events, floor meetings and floor programming earn one
+   point per resident. Meetings count only the floor's own residents;
+   programming visitors earn points for their own floor.
+   Other categories and advertised bonuses follow the rules below.
 
    `kind` drives how the site explains the category to residents.
    ------------------------------------------------------------------ */
@@ -113,9 +105,8 @@ const CATEGORIES = [
              its effort on the page instead of a bare zero.
 
    For a SHARED event, pts and reached are the same number.
-   For a FLOOR MEETING, reached is the headcount and pts is 40/30/20.
-   For FLOOR PROGRAMMING, reached is the headcount and pts is the
-   threshold it clears.
+   For a FLOOR MEETING or FLOOR PROGRAMMING, pts and reached are the
+   same headcount. Earlier awards may retain the rules used when posted.
    ------------------------------------------------------------------ */
 const AWARDS = [
 
@@ -439,7 +430,9 @@ const NOTES_FOR_RESIDENTS = [
   "The RA's own sign-in never counts toward their floor.",
   "Signing in twice at the same event counts once.",
   "Ties share the place and share the points. This competition runs all year, so there is nothing to break.",
-  "Floor meetings and iConvos are scored on a percentage of your own roster, so a smaller floor is never at a disadvantage.",
+  "Shared HLLC events, floor meetings and floor programming earn one point per resident. Floor meetings count only that floor's own residents.",
+  "Earlier awards keep their posted points: Floor Meeting #1 used placement scoring, and Pizza and Planes used a turnout threshold. New attendance awards use one point per resident, with advertised bonuses applied where specified.",
+  "iConvos are ranked by completion percentage: the top three places earn 100, 75 and 50 points.",
 ];
 
 /* ==================================================================
