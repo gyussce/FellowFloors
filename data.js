@@ -20,7 +20,7 @@ const SEASON = {
   tagline: "Wardall is Out of This World",
   starts: "2026-08-17",
   ends: "2026-12-18",
-  updated: "2026-09-22",   // <-- bump this when you post new points
+  updated: "2026-09-28",   // <-- bump this when you post new points
 };
 
 /* ------------------------------------------------------------------
@@ -110,8 +110,52 @@ const CATEGORIES = [
    ------------------------------------------------------------------ */
 const AWARDS = [
 
+  // Sept 22–27: counted from Roompact's attendee lists with multiple check-ins hidden.
+  // Only Wardall floors 6–12 count; meetings count only the host floor's residents.
+  // Floor 3–5 meetings add no awards, including two Floor 9 visitors at Floor 5's meeting.
+  { date: "2026-09-27", floor: 9, cat: "meetings", pts: 34, place: null, reached: 34,
+    note: "Floor Meeting #2 — 9th Floor Community Responsibility Meeting, Sept 27" },
+
+  // Sept 24 — Sip & Schedule (Roompact event 7pyQN6)
+  { date: "2026-09-24", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 8, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 10, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Sip & Schedule" },
+  { date: "2026-09-24", floor: 12, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Sip & Schedule" },
+
+  { date: "2026-09-23", floor: 7, cat: "meetings", pts: 26, place: null, reached: 26,
+    note: "Floor Meeting #2 — Community Responsibility Floor Meeting, Sept 23" },
+  { date: "2026-09-22", floor: 6, cat: "meetings", pts: 4, place: null, reached: 4,
+    note: "Floor Meeting #2 — 6th Floor Community Responsibility Floor Meeting, Sept 22" },
+
+  // Sept 22 — Light The Night Bike Light Installation Event (Roompact event 7pyY4E)
+  { date: "2026-09-22", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 7, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 8, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 10, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+  { date: "2026-09-22", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Light The Night Bike Light Installation Event" },
+
+
   // 2026-09-21  Floor Meeting #2 — one point per resident who attended
-  // Floors 6, 7 and 9 had not held their second meeting as of Sept 22.
+  // Floors 6, 7 and 9 held their second meetings later; see the Sept 22–27 entries above.
   { date: "2026-09-21", floor: 8, cat: "meetings", pts: 37, place: null, reached: 37,
     note: "Floor Meeting #2 — Community Responsibility Floor Meeting, Sept 21" },
   { date: "2026-09-17", floor: 10, cat: "meetings", pts: 34, place: null, reached: 34,
