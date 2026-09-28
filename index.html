@@ -322,10 +322,9 @@
       : "") +
     `and cleanliness alone will hand out roughly <strong>${cleanlinessStillToCome()} more points</strong> ` +
     "before December. " +
-    "<em>A low total is not a floor where nobody showed up</em> &mdash; the percentage categories only " +
-    "pay the top three, so a solid turnout can still score zero there. Every result in the " +
+    "Every completed iConvo earns a point, with extra points for the highest completion percentages. The " +
     '<a href="activity.html" style="color:var(--orange);text-decoration:underline;">activity log</a> ' +
-    "shows the headcount behind it, for all seven floors.";
+    "shows each posted result and its recorded participation.";
 
   el("open-cats").innerHTML = open.length
     ? open.map((c) => `<span class="open-cat">${c.icon} ${c.name} <b>${c.award}</b></span>`).join("")
@@ -334,7 +333,7 @@
   el("how-to-earn").innerHTML = [
     "<strong>Sign in at every HLLC event.</strong> One point per person, every time, no cap &mdash; this is the fastest way to move your floor. If you are not scanned, your floor gets nothing for you, however many of you were there.",
     "<strong>Come to your floor meeting.</strong> Each resident of your floor who attends earns one point.",
-    `<strong>Finish your iConvo</strong> with your RA. Worth <strong>${categoryById("iconvos").award}</strong> to the top three floors by completion rate, and no floor has scored a single point there yet.`,
+    `<strong>Finish your iConvo</strong> with your RA. Worth <strong>${categoryById("iconvos").award}</strong> &mdash; every completion counts, with placement bonuses based on completion percentage.`,
     "<strong>Turn up to your RA's own floor events.</strong> Every resident who attends earns one point for their own floor.",
     `<strong>Nominate a floormate</strong> when something good happens to them. <strong>${categoryById("nominations").award}</strong>, no limit, and nobody else can do it for you.`,
   ].map((t) => `<li>${t}</li>`).join("");

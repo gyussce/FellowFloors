@@ -80,13 +80,16 @@ An attendance result — one point per resident, with no placement:
 The site derives turnout percentages from `reached` and roster size for display.
 For attendance, set `pts` equal to `reached` unless an advertised bonus applies.
 
-For iConvos, post every floor's placement, including zero-point results.
-Tied floors receive the same place and points; for example, a tie for third:
+For iConvos, post every floor: `pts` is completions plus the placement bonus.
+Rank by completion percentage. Bonuses are 15 / 10 / 5 for ranks 1 / 2 / 3.
+Ties share the rank and bonus; subsequent ranks skip the tied floors. Four floors
+at 100% all rank first and earn 15 extra points; the next floor ranks fifth.
+For example, a tie for third earns five bonus points each:
 
 ```js
-{ date: "2026-10-01", floor: 7, cat: "iconvos", pts: 50, place: 3, reached: 34,
+{ date: "2026-10-01", floor: 7, cat: "iconvos", pts: 39, place: 3, reached: 34,
   note: "iConvos — tied for 3rd" },
-{ date: "2026-10-01", floor: 11, cat: "iconvos", pts: 50, place: 3, reached: 34,
+{ date: "2026-10-01", floor: 11, cat: "iconvos", pts: 39, place: 3, reached: 34,
   note: "iConvos — tied for 3rd" },
 ```
 
@@ -141,7 +144,7 @@ visiting from another floor earns that point for *their* floor:
 | --- | --- | --- |
 | Floor Meetings | every person counts | 1 per resident |
 | Floor Programming | every person counts | 1 per resident |
-| iConvos | % of your roster, top 3 | 100 / 75 / 50 |
+| iConvos | completions + bonus by completion % | 1 per completion + 15 / 10 / 5 bonus |
 
 **Everything else:**
 
@@ -184,8 +187,8 @@ it — turn up, your floor scores.
 Two entries predate the change and are still on the old basis: **Floor Meeting
 #1** (Aug 20, scored 40/30/20 by placement) and **Pizza and Planes** (Aug 31,
 scored 20 on the old threshold ladder). Keep these historical awards as posted;
-the one-point-per-resident rule applies going forward. iConvos retain their
-completion-percentage placement scoring.
+the one-point-per-resident rule applies going forward. iConvos earn one point per completion plus the
+completion-percentage placement bonus described above.
 
 Counting rules:
 

@@ -58,9 +58,9 @@ const CATEGORIES = [
     award: "1 per resident",
     desc: "Every resident of your floor who comes to its meeting is one point. No cap and no placement — the more of your floor turns up, the more you score." },
 
-  { id: "iconvos",     name: "iConvos",                icon: "\u{1F4AC}", kind: "percentage",
-    award: "100 / 75 / 50",
-    desc: "Ranked on the percentage of your floor that completes an iConvo with their RA. Top three score." },
+  { id: "iconvos",     name: "iConvos",                icon: "\u{1F4AC}", kind: "completion",
+    award: "1 per completion + 15 / 10 / 5 bonus",
+    desc: "One point per completed iConvo, plus 15, 10 or 5 bonus points for 1st, 2nd or 3rd by completion percentage. Ties share the place and bonus, with the following places skipped. Every floor tied at 100% gets the 15-point first-place bonus." },
 
   { id: "programming", name: "Floor Programming",      icon: "\u{1F389}", kind: "per-person",
     award: "1 per resident",
@@ -109,6 +109,22 @@ const CATEGORIES = [
    same headcount. Earlier awards may retain the rules used when posted.
    ------------------------------------------------------------------ */
 const AWARDS = [
+
+  // Sept 28 — iConvo counts supplied by Abo. Four floors tie for first; next place is fifth.
+  { date: "2026-09-28", floor: 6, cat: "iconvos", pts: 65, place: 1, reached: 50,
+    note: "iConvos — 50 completed + 15 bonus points; tied for 1st" },
+  { date: "2026-09-28", floor: 7, cat: "iconvos", pts: 67, place: 1, reached: 52,
+    note: "iConvos — 52 completed + 15 bonus points; tied for 1st" },
+  { date: "2026-09-28", floor: 10, cat: "iconvos", pts: 66, place: 1, reached: 51,
+    note: "iConvos — 51 completed + 15 bonus points; tied for 1st" },
+  { date: "2026-09-28", floor: 12, cat: "iconvos", pts: 63, place: 1, reached: 48,
+    note: "iConvos — 48 completed + 15 bonus points; tied for 1st" },
+  { date: "2026-09-28", floor: 9, cat: "iconvos", pts: 49, place: 5, reached: 49,
+    note: "iConvos — 49 completed + 0 bonus points; 5th place" },
+  { date: "2026-09-28", floor: 8, cat: "iconvos", pts: 49, place: 6, reached: 49,
+    note: "iConvos — 49 completed + 0 bonus points; 6th place" },
+  { date: "2026-09-28", floor: 11, cat: "iconvos", pts: 49, place: 7, reached: 49,
+    note: "iConvos — 49 completed + 0 bonus points; 7th place" },
 
   // Sept 22–27: counted from Roompact's attendee lists with multiple check-ins hidden.
   // Only Wardall floors 6–12 count; meetings count only the host floor's residents.
@@ -473,10 +489,10 @@ const NOTES_FOR_RESIDENTS = [
   "Attendance is counted from Roompact sign-ins. Sign in at every event — if you are not scanned, your floor gets nothing for you, however many of you were there.",
   "The RA's own sign-in never counts toward their floor.",
   "Signing in twice at the same event counts once.",
-  "Ties share the place and share the points. This competition runs all year, so there is nothing to break.",
+  "Ties share the place and the placement award. For iConvos, tied floors get the same bonus plus their own completed-iConvo count.",
   "Shared HLLC events, floor meetings and floor programming earn one point per resident. Floor meetings count only that floor's own residents.",
   "Earlier awards keep their posted points: Floor Meeting #1 used placement scoring, and Pizza and Planes used a turnout threshold. New attendance awards use one point per resident, with advertised bonuses applied where specified.",
-  "iConvos are ranked by completion percentage: the top three places earn 100, 75 and 50 points.",
+  "Each completed iConvo earns one point. Completion percentage determines an extra 15 points for 1st, 10 for 2nd and 5 for 3rd. Ties share the place and bonus and skip subsequent places: four floors tied for 1st means the next floor is 5th. All floors at 100% share 1st and receive 15 bonus points.",
 ];
 
 /* ==================================================================
