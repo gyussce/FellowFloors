@@ -20,7 +20,7 @@ const SEASON = {
   tagline: "Wardall is Out of This World",
   starts: "2026-08-17",
   ends: "2026-12-18",
-  updated: "2026-09-28",   // <-- bump this when you post new points
+  updated: "2026-10-11",   // <-- bump this when you post new points
 };
 
 /* ------------------------------------------------------------------
@@ -33,7 +33,7 @@ const FLOORS = [
   { number: 6,  ra: "Abo",      residents: 50, nickname: "The Sixth Sense", color: "#E84A27" },
   { number: 7,  ra: "Rediet",   residents: 52, nickname: "Lucky Seven",     color: "#FF6B47" },
   { number: 8,  ra: "Berenice", residents: 51, nickname: "Infinity Floor",  color: "#FFB347" },
-  { number: 9,  ra: "Cameron",  residents: 50, nickname: "Cloud Nine",      color: "#4A90D9" },
+  { number: 9,  ra: "Cameron",  residents: 49, nickname: "Cloud Nine",      color: "#4A90D9" },
   { number: 10, ra: "Eva",      residents: 51, nickname: "Perfect Ten",     color: "#50C878" },
   { number: 11, ra: "Tyler",    residents: 52, nickname: "The Eleven",      color: "#9B59B6" },
   { number: 12, ra: "Noelle",   residents: 48, nickname: "Top Floor",       color: "#E67E22" },
@@ -61,6 +61,10 @@ const CATEGORIES = [
   { id: "iconvos",     name: "iConvos",                icon: "\u{1F4AC}", kind: "completion",
     award: "1 per completion + 15 / 10 / 5 bonus",
     desc: "One point per completed iConvo, plus 15, 10 or 5 bonus points for 1st, 2nd or 3rd by completion percentage. Ties share the place and bonus, with the following places skipped. Every floor tied at 100% gets the 15-point first-place bonus." },
+
+  { id: "appraisals",  name: "RA Appraisals",          icon: "\u{1F4CB}", kind: "per-person",
+    award: "1 per completed appraisal",
+    desc: "One point for each resident's completed RA appraisal. Counts are supplied by HLLC staff." },
 
   { id: "programming", name: "Floor Programming",      icon: "\u{1F389}", kind: "per-person",
     award: "1 per resident",
@@ -110,17 +114,168 @@ const CATEGORIES = [
    ------------------------------------------------------------------ */
 const AWARDS = [
 
-  // Sept 28 — iConvo counts supplied by Abo. Four floors tie for first; next place is fifth.
+  // RA appraisal points supplied by Abo on Oct 11; one point per completion.
+  { date: "2026-10-11", floor: 6, cat: "appraisals", pts: 50, place: null, reached: 50,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 7, cat: "appraisals", pts: 26, place: null, reached: 26,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 8, cat: "appraisals", pts: 19, place: null, reached: 19,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 9, cat: "appraisals", pts: 49, place: null, reached: 49,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 10, cat: "appraisals", pts: 36, place: null, reached: 36,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 11, cat: "appraisals", pts: 31, place: null, reached: 31,
+    note: "RA Appraisals" },
+  { date: "2026-10-11", floor: 12, cat: "appraisals", pts: 48, place: null, reached: 48,
+    note: "RA Appraisals" },
+
+  // Sept 28–Oct 11 audit: reviewed all 49 past listings across location tags,
+  // plus the current-events list. Eight Wardall, Honors LLC or ISR events qualified.
+  // Counted unique visible resident name + assignment entries per event;
+  // removed repeated check-ins, RA entries and residents outside Wardall floors 6–12.
+  // Campus-wide events outside Wardall/Honors LLC/ISR are excluded by Abo's instruction.
+
+  // 2026-10-11 — Roompact event xaB0Wk; 1 eligible residents.
+  { date: "2026-10-11", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 8, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 10, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "Black girl Relaxation" },
+  { date: "2026-10-11", floor: 12, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "Black girl Relaxation" },
+
+  // 2026-10-08 — Roompact event LlYQJ3; 21 eligible residents.
+  { date: "2026-10-08", floor: 6, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 7, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 8, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 9, cat: "attendance", pts: 10, place: null, reached: 10,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 10, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 11, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+  { date: "2026-10-08", floor: 12, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "HLLC Monthly Crafts & Snacks: Make Your Own Loteria" },
+
+  // 2026-10-07 — Roompact event bPGKod; 3 eligible residents.
+  { date: "2026-10-07", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 8, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 10, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Oct 7" },
+  { date: "2026-10-07", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Oct 7" },
+
+  // 2026-10-05 — Roompact event LqPOvY; 18 eligible residents.
+  { date: "2026-10-05", floor: 6, cat: "programming", pts: 0, place: null, reached: 0,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 7, cat: "programming", pts: 1, place: null, reached: 1,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 8, cat: "programming", pts: 17, place: null, reached: 17,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 9, cat: "programming", pts: 0, place: null, reached: 0,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 10, cat: "programming", pts: 0, place: null, reached: 0,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 11, cat: "programming", pts: 0, place: null, reached: 0,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+  { date: "2026-10-05", floor: 12, cat: "programming", pts: 0, place: null, reached: 0,
+    note: "Wardall 8th Floor - Community Initiative 2" },
+
+  // 2026-10-01 — Roompact event 76oW9v; 9 eligible residents.
+  { date: "2026-10-01", floor: 6, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 7, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 8, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 9, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 10, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+  { date: "2026-10-01", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "October 1 2026 Honors Living-Learning Community Study & Snacks" },
+
+  // 2026-09-30 — Roompact event b0RDZv; 38 eligible residents.
+  { date: "2026-09-30", floor: 6, cat: "attendance", pts: 11, place: null, reached: 11,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 7, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 8, cat: "attendance", pts: 5, place: null, reached: 5,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 9, cat: "attendance", pts: 5, place: null, reached: 5,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 10, cat: "attendance", pts: 3, place: null, reached: 3,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 11, cat: "attendance", pts: 10, place: null, reached: 10,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+  { date: "2026-09-30", floor: 12, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "Humanities Research Institute and Honors LLC Lunch with Associate Professor Mirelsie Velázquez, PhD" },
+
+  // 2026-09-30 — Roompact event byNX84; 1 eligible residents.
+  { date: "2026-09-30", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 8, cat: "attendance", pts: 1, place: null, reached: 1,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 10, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 11, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+  { date: "2026-09-30", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "ISR Hall Council Meeting — Sept 30" },
+
+  // 2026-09-29 — Roompact event 78PNl6; 4 eligible residents.
+  { date: "2026-09-29", floor: 6, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 8, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 10, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 11, cat: "attendance", pts: 2, place: null, reached: 2,
+    note: "HLLC Trivia Night" },
+  { date: "2026-09-29", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
+    note: "HLLC Trivia Night" },
+
+  // Sept 28 — iConvo counts supplied by Abo; corrected Oct 11.
+  // Floors 6, 9, 10 and 12 tie for first. Floor 7 is fifth at 50/52.
   { date: "2026-09-28", floor: 6, cat: "iconvos", pts: 65, place: 1, reached: 50,
     note: "iConvos — 50 completed + 15 bonus points; tied for 1st" },
-  { date: "2026-09-28", floor: 7, cat: "iconvos", pts: 67, place: 1, reached: 52,
-    note: "iConvos — 52 completed + 15 bonus points; tied for 1st" },
+  { date: "2026-09-28", floor: 7, cat: "iconvos", pts: 50, place: 5, reached: 50,
+    note: "iConvos — 50 completed + 0 bonus points; 5th place (count corrected Oct 11)" },
   { date: "2026-09-28", floor: 10, cat: "iconvos", pts: 66, place: 1, reached: 51,
     note: "iConvos — 51 completed + 15 bonus points; tied for 1st" },
   { date: "2026-09-28", floor: 12, cat: "iconvos", pts: 63, place: 1, reached: 48,
     note: "iConvos — 48 completed + 15 bonus points; tied for 1st" },
-  { date: "2026-09-28", floor: 9, cat: "iconvos", pts: 49, place: 5, reached: 49,
-    note: "iConvos — 49 completed + 0 bonus points; 5th place" },
+  { date: "2026-09-28", floor: 9, cat: "iconvos", pts: 64, place: 1, reached: 49,
+    note: "iConvos — 49 completed + 15 bonus points; tied for 1st (roster corrected to 49 Oct 11)" },
   { date: "2026-09-28", floor: 8, cat: "iconvos", pts: 49, place: 6, reached: 49,
     note: "iConvos — 49 completed + 0 bonus points; 6th place" },
   { date: "2026-09-28", floor: 11, cat: "iconvos", pts: 49, place: 7, reached: 49,
