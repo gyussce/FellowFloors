@@ -200,22 +200,6 @@ const AWARDS = [
   { date: "2026-10-21", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
     note: "Hall Council Meeting - 10/21" },
 
-  // 2026-10-21 — Roompact L5eq1v; 3 eligible residents.
-  { date: "2026-10-21", floor: 6, cat: "attendance", pts: 0, place: null, reached: 0,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 7, cat: "attendance", pts: 0, place: null, reached: 0,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 8, cat: "attendance", pts: 0, place: null, reached: 0,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 9, cat: "attendance", pts: 0, place: null, reached: 0,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 10, cat: "attendance", pts: 1, place: null, reached: 1,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 11, cat: "attendance", pts: 2, place: null, reached: 2,
-    note: "Taste of Townsend" },
-  { date: "2026-10-21", floor: 12, cat: "attendance", pts: 0, place: null, reached: 0,
-    note: "Taste of Townsend" },
-
   // 2026-10-20 — Roompact L3YlJA; 26 eligible residents.
   { date: "2026-10-20", floor: 6, cat: "programming", pts: 0, place: null, reached: 0,
     note: "7/11 Game Night" },
